@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Movies Ahoy! Friends</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        min-height: 100vh;
+        background-color: #222;
+      }
+
+      .iphone-screen {
+        width: 375px;
+        height: 812px;
+        background-color: #8fe8c7;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        overflow: hidden;
+      }
+
+      /* HEADER */
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 15px 10px;
+        border-bottom: 2px solid #b73232;
+        flex-shrink: 0;
+      }
+
+      .header-title {
+        font-family: Georgia, serif;
+        font-size: 1.8em;
+        color: #b73232;
+        font-weight: bold;
+      }
+
+      .user-profile {
+        display: flex;
+        align-items: center;
+        font-size: 1.1em;
+        font-weight: bold;
+        color: #333;
+      }
+
+      .user-icon {
+        margin-left: 10px;
+        width: 30px;
+        height: 30px;
+        background-color: #333;
+        border-radius: 50%;
+      }
+
+      /* SEARCH BAR */
+      .search-container {
+        padding: 10px 15px;
+        display: flex;
+        gap: 10px;
+        flex-shrink: 0;
+      }
+
+      .search-input {
+        flex-grow: 1;
+        padding: 10px 12px;
+        font-size: 1em;
+        border: 2px solid #b73232;
+        border-radius: 8px;
+        outline: none;
+        box-sizing: border-box;
+      }
+
+      .friends-btn,
+      .requests-btn {
+        padding: 8px 12px;
+        border-radius: 8px;
+        border: none;
+        font-weight: bold;
+        cursor: pointer;
+        background-color: #b73232;
+        color: white;
+      }
+
+      .friends-btn.active,
+      .requests-btn.active {
+        background-color: #922424;
+      }
+
+      /* FRIEND LIST */
+      .friend-list {
+        flex-grow: 1;
+        overflow-y: auto;
+        padding: 10px 15px 70px;
+      }
+
+      .friend-card {
+        background-color: rgba(255, 255, 255, 0.2);
+        border-radius: 10px;
+        padding: 10px;
+        margin-bottom: 15px;
+      }
+
+      .friend-card-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .friend-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+        background-color: #ccc;
+      }
+
+      .friend-username {
+        font-weight: bold;
+        font-size: 1em;
+      }
+
+      .friend-bio {
+        font-size: 0.85em;
+        color: #333;
+        margin: 5px 0;
+      }
+
+      .friend-movies {
+        font-size: 0.85em;
+        color: #555;
+        cursor: pointer;
+        position: relative;
+      }
+
+      .friend-movies:hover::after {
+        content: attr(data-all-movies);
+        position: absolute;
+        left: 0;
+        top: 100%;
+        white-space: nowrap;
+        background-color: #fff;
+        color: #000;
+        padding: 5px 8px;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        z-index: 10;
+      }
+
+      .friend-actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 8px;
+      }
+
+      .accept-btn {
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .decline-btn {
+        background-color: #f44336;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      /* NAV BAR */
+      .navigation-bar {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        height: 60px;
+        background-color: #333;
+        box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
+      }
+
+      .nav-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        color: #fff;
+        text-decoration: none;
+        font-size: 0.7em;
+        font-weight: bold;
+        padding: 5px;
+      }
+
+      .icon {
+        width: 20px;
+        height: 20px;
+        border-radius: 2px;
+        margin-bottom: 3px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="iphone-screen">
+      <!-- HEADER -->
+      <div class="header">
+        <div class="header-title">Movies Ahoy!</div>
+        <div class="user-profile">
+          Username
+          <span class="user-icon"></span>
+        </div>
+      </div>
+
+      <!-- SEARCH BAR -->
+      <div class="search-container">
+        <input
+          type="text"
+          placeholder="Search friends..."
+          id="searchInput"
+          class="search-input"
+        />
+      </div>
+
+      <!-- FRIEND / REQUEST BUTTONS -->
+      <div style="display: flex; gap: 10px; padding: 0 15px 10px">
+        <button class="friends-btn active" id="friendsBtn">Friends</button>
+        <button class="requests-btn" id="requestsBtn">Requests</button>
+      </div>
+
+      <!-- FRIEND LIST -->
+      <div class="friend-list" id="friendList"></div>
+
+      <!-- NAVIGATION BAR -->
+      <div class="navigation-bar">
+        <a href="Home.html" class="nav-item">
+          <img src="images/Navigation/home.png" class="icon" />Home
+        </a>
+        <a href="Movies.html" class="nav-item">
+          <img src="images/Navigation/movies.png" class="icon" />Movies
+        </a>
+        <a href="Groups.html" class="nav-item">
+          <img src="images/Navigation/groups.png" class="icon" />Groups
+        </a>
+        <a href="Friends.html" class="nav-item">
+          <img src="images/Navigation/friends.png" class="icon" />Friends
+        </a>
+        <a href="Settings.html" class="nav-item">
+          <img src="images/Navigation/setting.png" class="icon" />Settings
+        </a>
+      </div>
+    </div>
+
+    <script>
+      const friendsBtn = document.getElementById("friendsBtn");
+      const requestsBtn = document.getElementById("requestsBtn");
+      const friendList = document.getElementById("friendList");
+      const searchInput = document.getElementById("searchInput");
+
+      let mode = "friends";
+
+      // UPDATED FRIENDS DATA
+
+      const friendsData = [
+        {
+          username: "Alice",
+          bio: "Movie lover and popcorn addict",
+          movies: [
+            "Inception",
+            "Titanic",
+            "Interstellar",
+            "Avatar",
+            "Snow White",
+          ],
+          avatar: "images/Avatars/alice.jpg",
+        },
+        {
+          username: "Bob",
+          bio: "Enjoys sci-fi and thrillers",
+          movies: ["The Matrix", "Inception", "Snow White"],
+          avatar: "images/Avatars/bob.jpg",
+        },
+        {
+          username: "Evelyn",
+          bio: "Loves thrillers",
+          movies: ["Se7en", "Gone Girl", "Shutter Island", "Snow White"],
+          avatar: "images/Avatars/evelyn.jpg",
+        },
+      ];
+
+      const requestsData = [
+        {
+          username: "Charlie",
+          bio: "Horror enthusiast",
+          movies: ["It", "The Shining", "Get Out"],
+          avatar: "images/Avatars/charlie.jpg",
+        },
+        {
+          username: "Liam",
+          bio: "Sci-fi & fantasy fan",
+          movies: ["Star Wars", "Guardians of the Galaxy", "Avatar"],
+          avatar: "images/Avatars/liam.jpg",
+        },
+      ];
+
+      function renderList(filter = "") {
+        friendList.innerHTML = "";
+        let listData = mode === "friends" ? friendsData : requestsData;
+        const filtered = listData.filter((u) =>
+          u.username.toLowerCase().includes(filter.toLowerCase())
+        );
+
+        filtered.forEach((user, index) => {
+          const card = document.createElement("div");
+          card.classList.add("friend-card");
+
+          const moviesShort =
+            user.movies.slice(0, 2).join(", ") +
+            (user.movies.length > 2 ? ", ..." : "");
+          const moviesFull = user.movies.join(", ");
+
+          let innerHTML = `
+            <div class="friend-card-header">
+              <img src="${user.avatar}" class="friend-avatar" />
+              <span class="friend-username">${user.username}</span>
+            </div>
+            <p class="friend-bio">${user.bio}</p>
+            <p class="friend-movies" data-all-movies="${moviesFull}">Movies watched: ${moviesShort}</p>
+          `;
+
+          if (mode === "requests") {
+            innerHTML += `
+              <div class="friend-actions">
+                <button class="accept-btn" data-index="${index}">Accept</button>
+                <button class="decline-btn" data-index="${index}">Decline</button>
+              </div>
+            `;
+          }
+
+          card.innerHTML = innerHTML;
+          friendList.appendChild(card);
+        });
+
+        if (mode === "requests") {
+          const acceptButtons = document.querySelectorAll(".accept-btn");
+          const declineButtons = document.querySelectorAll(".decline-btn");
+
+          acceptButtons.forEach((btn) => {
+            btn.addEventListener("click", () => {
+              const idx = btn.dataset.index;
+              const user = requestsData.splice(idx, 1)[0];
+              friendsData.push(user);
+              renderList(searchInput.value);
+            });
+          });
+
+          declineButtons.forEach((btn) => {
+            btn.addEventListener("click", () => {
+              const idx = btn.dataset.index;
+              requestsData.splice(idx, 1);
+              renderList(searchInput.value);
+            });
+          });
+        }
+      }
+
+      friendsBtn.addEventListener("click", () => {
+        mode = "friends";
+        friendsBtn.classList.add("active");
+        requestsBtn.classList.remove("active");
+        renderList(searchInput.value);
+      });
+
+      requestsBtn.addEventListener("click", () => {
+        mode = "requests";
+        friendsBtn.classList.remove("active");
+        requestsBtn.classList.add("active");
+        renderList(searchInput.value);
+      });
+
+      searchInput.addEventListener("input", () =>
+        renderList(searchInput.value)
+      );
+
+      renderList();
+    </script>
+  </body>
+</html>

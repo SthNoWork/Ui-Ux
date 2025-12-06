@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Group Detail - Movies Ahoy!</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        background-color: #222;
+      }
+
+      .iphone-screen {
+        width: 375px;
+        min-height: 812px;
+        background-color: #8fe8c7;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        overflow: hidden;
+      }
+
+      /* HEADER */
+      .header {
+        display: flex;
+        align-items: center;
+        padding: 15px;
+        background-color: #8fe8c7;
+        border-bottom: 2px solid #b73232;
+      }
+
+      .back-btn {
+        padding: 5px 10px;
+        margin-right: 10px;
+        background-color: #b73232;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .group-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .group-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        overflow: hidden;
+      }
+
+      .group-icon img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .group-info {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .group-name {
+        font-weight: bold;
+        font-size: 1.2em;
+        color: #333;
+      }
+
+      .group-bio {
+        font-size: 0.9em;
+        color: #555;
+      }
+
+      /* CONTENT */
+      .content {
+        flex: 1;
+        padding: 15px;
+        overflow-y: auto;
+      }
+
+      .invite-section {
+        background-color: rgba(255, 255, 255, 0.2);
+        border-radius: 10px;
+        padding: 15px;
+        margin-bottom: 15px;
+      }
+
+      .invite-section h3 {
+        margin: 0 0 10px 0;
+      }
+
+      .invite-input {
+        width: 100%;
+        padding: 10px;
+        border-radius: 8px;
+        border: 2px solid #b73232;
+        outline: none;
+        margin-bottom: 10px;
+        box-sizing: border-box;
+      }
+
+      .send-invite-btn {
+        padding: 10px;
+        width: 100%;
+        border: none;
+        border-radius: 8px;
+        background-color: #b73232;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+      }
+
+      .create-hangout-btn {
+        margin: 15px;
+        padding: 15px;
+        width: calc(100% - 30px);
+        border: none;
+        border-radius: 10px;
+        background-color: #1976d2;
+        color: white;
+        font-weight: bold;
+        font-size: 1em;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="iphone-screen">
+      <!-- HEADER -->
+      <div class="header">
+        <button class="back-btn" onclick="window.location.href='Groups.html'">
+          Back
+        </button>
+        <div class="group-header">
+          <div class="group-icon">
+            <img src="images/Groups/Group1.jpg" alt="Group Icon" />
+          </div>
+          <div class="group-info">
+            <div class="group-name" id="groupName">The Gang</div>
+            <div class="group-bio" id="groupBio">
+              Movie lovers hangout for fantasy and adventure films
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CONTENT -->
+      <div class="content">
+        <div class="invite-section">
+          <h3>Send a Movie Invite</h3>
+          <input
+            type="text"
+            placeholder="Enter movie name..."
+            class="invite-input"
+            id="movieInput"
+          />
+          <button class="send-invite-btn" onclick="sendInvite()">
+            Send Invite
+          </button>
+        </div>
+      </div>
+
+      <button class="create-hangout-btn" onclick="createHangout()">
+        Create Movie Hangout
+      </button>
+    </div>
+
+    <script>
+      function sendInvite() {
+        const movie = document.getElementById("movieInput").value.trim();
+        if (movie) {
+          alert(`Movie invite for "${movie}" sent!`);
+          document.getElementById("movieInput").value = "";
+        } else {
+          alert("Please enter a movie name.");
+        }
+      }
+
+      function createHangout() {
+        alert("Create Movie Hangout clicked! (Functionality coming later)");
+      }
+    </script>
+  </body>
+</html>

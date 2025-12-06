@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Movies Ahoy! (Weekly)</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        min-height: 100vh;
+        background-color: #222;
+      }
+
+      .iphone-screen {
+        width: 375px;
+        height: 812px;
+        background-color: #8fe8c7;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        overflow: hidden;
+      }
+
+      /* HEADER */
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 15px 10px;
+        border-bottom: 2px solid #b73232;
+        flex-shrink: 0;
+      }
+
+      .header-title {
+        font-family: Georgia, serif;
+        font-size: 1.8em;
+        color: #b73232;
+        font-weight: bold;
+      }
+
+      .user-profile {
+        display: flex;
+        align-items: center;
+        font-size: 1.1em;
+        font-weight: bold;
+        color: #333;
+      }
+
+      .user-icon {
+        margin-left: 10px;
+        width: 30px;
+        height: 30px;
+        background-color: #333;
+        border-radius: 50%;
+      }
+
+      /* SEARCH BAR */
+      .search-container {
+        padding: 10px 15px;
+        flex-shrink: 0;
+      }
+
+      .search-input {
+        width: 100%;
+        padding: 10px 12px;
+        font-size: 1em;
+        border: 2px solid #b73232;
+        border-radius: 8px;
+        outline: none;
+        box-sizing: border-box; /* important to prevent overflow */
+      }
+
+      /* DAY SELECTOR */
+      .day-selector {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 12px;
+        flex-shrink: 0; /* prevents moving */
+      }
+
+      .day {
+        flex: 1;
+        text-align: center;
+        padding: 8px 0;
+        background-color: #b73232;
+        color: #fff;
+        border-radius: 8px;
+        margin: 0 2px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: 0.2s;
+      }
+
+      .day.active {
+        background-color: #922424;
+      }
+
+      /* MOVIE LIST */
+      .movie-list {
+        flex-grow: 1;
+        padding: 10px 15px 70px; /* leave space for nav */
+        overflow-y: auto;
+      }
+
+      .movie-card {
+        display: flex;
+        margin-bottom: 20px;
+        background-color: rgba(255, 255, 255, 0.2);
+        border-radius: 10px;
+        padding: 10px;
+      }
+
+      .movie-poster {
+        width: 90px;
+        height: 135px;
+        border-radius: 5px;
+        flex-shrink: 0;
+        overflow: hidden;
+        margin-right: 15px;
+      }
+
+      .movie-poster img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 5px;
+      }
+
+      .movie-details {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .movie-details h3 {
+        margin: 0 0 5px;
+        color: #333;
+        font-size: 1.2em;
+      }
+
+      .movie-details p {
+        margin: 0;
+        font-size: 0.85em;
+        line-height: 1.3;
+        color: #555;
+        display: -webkit-box;
+        -webkit-line-clamp: 5;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .movie-details .stats {
+        font-size: 0.9em;
+        font-weight: bold;
+        color: #333;
+        margin-top: 10px;
+      }
+
+      /* NAV BAR */
+      .navigation-bar {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        height: 60px;
+        background-color: #333;
+        box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
+      }
+
+      .nav-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        color: #fff;
+        text-decoration: none;
+        font-size: 0.7em;
+        font-weight: bold;
+        padding: 5px;
+      }
+
+      .icon {
+        width: 20px;
+        height: 20px;
+        border-radius: 2px;
+        margin-bottom: 3px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="iphone-screen">
+      <!-- HEADER -->
+      <div class="header">
+        <div class="header-title">Movies Ahoy!</div>
+        <div class="user-profile">
+          Username
+          <span class="user-icon"></span>
+        </div>
+      </div>
+
+      <!-- SEARCH BAR -->
+      <div class="search-container">
+        <input
+          type="text"
+          class="search-input"
+          placeholder="Search movies..."
+          id="searchInput"
+        />
+      </div>
+
+      <!-- DAY SELECTOR -->
+      <div class="day-selector" id="daySelector">
+        <div class="day active" data-day="Mon">Mon</div>
+        <div class="day" data-day="Tue">Tue</div>
+        <div class="day" data-day="Wed">Wed</div>
+        <div class="day" data-day="Thu">Thu</div>
+        <div class="day" data-day="Fri">Fri</div>
+        <div class="day" data-day="Sat">Sat</div>
+        <div class="day" data-day="Sun">Sun</div>
+      </div>
+
+      <!-- MOVIE LIST -->
+      <div class="movie-list" id="movieList"></div>
+
+      <!-- NAVIGATION BAR -->
+      <div class="navigation-bar">
+        <a href="Home.html" class="nav-item">
+          <img src="images/Navigation/home.png" class="icon" />Home
+        </a>
+        <a href="Movies.html" class="nav-item">
+          <img src="images/Navigation/movies.png" class="icon" />Movies
+        </a>
+        <a href="Groups.html" class="nav-item">
+          <img src="images/Navigation/groups.png" class="icon" />Groups
+        </a>
+        <a href="Friends.html" class="nav-item">
+          <img src="images/Navigation/friends.png" class="icon" />Friends
+        </a>
+        <a href="Settings.html" class="nav-item">
+          <img src="images/Navigation/setting.png" class="icon" />Settings
+        </a>
+      </div>
+    </div>
+
+    <script>
+      const days = document.querySelectorAll(".day");
+      const movieList = document.getElementById("movieList");
+      const searchInput = document.getElementById("searchInput");
+
+      const moviesData = {
+        Mon: [
+          {
+            title: "Snow White",
+            desc: "Classic fairy tale reimagined.",
+            views: "25M",
+            rating: "2.2/10",
+            img: "images/Home/Movies/Snow-White.jpg",
+            link: "snow-white.html", // <-- link to its detail page
+          },
+          {
+            title: "The Great Escape",
+            desc: "Action thriller with hackers.",
+            views: "18M",
+            rating: "4.5/10",
+            img: "images/Home/Movies/The-Great-Escape.jpg",
+            link: "the-great-escape.html",
+          },
+        ],
+        Tue: [
+          {
+            title: "Desert Dawn",
+            desc: "Drama set in the desert.",
+            views: "12M",
+            rating: "4.1/10",
+            img: "images/Home/Movies/Desert-Dawn.jpg",
+            link: "desert-dawn.html",
+          },
+        ],
+        // Add Wed-Sun similarly
+      };
+
+      let currentDay = "Mon";
+
+      function loadMovies(day, filter = "") {
+        movieList.innerHTML = "";
+        const movies = moviesData[day] || [];
+        movies
+          .filter((m) => m.title.toLowerCase().includes(filter.toLowerCase()))
+          .forEach((movie) => {
+            const link = document.createElement("a");
+            link.href = movie.link; // dynamic link
+            link.style.textDecoration = "none"; // remove underline
+            link.style.color = "inherit";
+
+            const card = document.createElement("div");
+            card.classList.add("movie-card");
+            card.innerHTML = `
+        <div class="movie-poster"><img src="${movie.img}" /></div>
+        <div class="movie-details">
+          <h3>${movie.title}</h3>
+          <p>${movie.desc}</p>
+          <div class="stats">Views: ${movie.views} ★ ${movie.rating}</div>
+        </div>
+      `;
+
+            link.appendChild(card);
+            movieList.appendChild(link);
+          });
+      }
+
+      days.forEach((dayEl) => {
+        dayEl.addEventListener("click", () => {
+          days.forEach((d) => d.classList.remove("active"));
+          dayEl.classList.add("active");
+          currentDay = dayEl.dataset.day;
+          loadMovies(currentDay, searchInput.value);
+        });
+      });
+
+      searchInput.addEventListener("input", () => {
+        loadMovies(currentDay, searchInput.value);
+      });
+
+      // Initial load
+      loadMovies(currentDay);
+    </script>
+  </body>
+</html>

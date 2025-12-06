@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Movies Ahoy! Login</title>
+    <style>
+      /* Basic Reset and Setup */
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background-color: #222; /* Dark background for the outside area */
+      }
+
+      /* Container simulating the iPhone screen */
+      .iphone-screen {
+        width: 375px; /* Common mobile width */
+        height: 812px; /* Common mobile height */
+        background-color: #8fe8c7; /* Teal/Mint color from the image */
+        padding: 40px 20px;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border-radius: 30px; /* Optional rounded corners */
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+      }
+
+      /* Header/Title */
+      .app-title {
+        font-family: Georgia, serif; /* Trying to match the font style */
+        font-size: 3em;
+        color: #b73232; /* Reddish color */
+        margin-bottom: 50px;
+        font-weight: bold;
+        text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Form Styling */
+      .login-form {
+        width: 90%;
+        max-width: 300px;
+        text-align: center;
+      }
+
+      .input-field {
+        width: 100%;
+        padding: 15px 10px;
+        margin-bottom: 15px;
+        border: none;
+        border-radius: 5px;
+        background-color: rgba(
+          255,
+          255,
+          255,
+          0.7
+        ); /* Slightly transparent white */
+        box-sizing: border-box;
+        font-size: 1em;
+        outline: none;
+      }
+
+      .log-in-button {
+        background-color: #3b5998; /* Blue color for the button */
+        color: white;
+        padding: 10px 30px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: bold;
+        text-transform: uppercase;
+        font-size: 0.9em;
+        margin-top: 5px;
+        margin-bottom: 30px;
+      }
+
+      /* Sign-up and Help links */
+      .aux-links {
+        display: flex;
+        justify-content: space-between;
+        width: 90%;
+        max-width: 300px;
+        margin-bottom: 60px;
+        font-size: 1.1em;
+        color: #3b5998; /* Blue color for links */
+      }
+
+      .aux-links a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      /* Social Login Buttons */
+      .social-login {
+        width: 90%;
+        max-width: 300px;
+        text-align: left;
+        margin-top: 20px;
+      }
+
+      .social-login p {
+        display: flex;
+        align-items: center;
+        font-size: 1.1em;
+        margin: 15px 0;
+        color: #333; /* Dark text for links */
+      }
+
+      .social-login img {
+        width: 20px;
+        height: 20px;
+        margin-right: 15px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="iphone-screen">
+      <div class="app-title">Movies<br />Ahoy!</div>
+
+      <form class="login-form">
+        <input type="email" placeholder="Email" class="input-field" required />
+        <input
+          type="password"
+          placeholder="Password"
+          class="input-field"
+          required
+        />
+        <button type="submit" class="log-in-button">Log In</button>
+      </form>
+
+      <div class="aux-links">
+        <a href="#">Sign up</a>
+        <a href="#">Help?</a>
+      </div>
+
+      <div class="social-login">
+        <p>
+          <img src="images/LogIn/Google.png" alt="Google Logo" /> Log in with
+          Google
+        </p>
+        <p>
+          <img src="images/LogIn/Apple.png" alt="Apple Logo" /> Log in with
+          Apple
+        </p>
+        <p>
+          <img src="images/LogIn/Twitter.png" alt="Twitter Logo" /> Log in with
+          Twitter
+        </p>
+      </div>
+    </div>
+  </body>
+</html>

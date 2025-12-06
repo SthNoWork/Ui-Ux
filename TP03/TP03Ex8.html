@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Form</title>
+  </head>
+  <body>
+    <h2>Sign Up Account</h2>
+    <fieldset>
+      <legend>Sign Up</legend>
+      <form>
+        Name:
+        <input
+          type="text"
+          name="name"
+          required
+          placeholder="Enter username"
+        /><br /><br />
+        Password:
+        <input
+          type="password"
+          name="password"
+          required
+          placeholder="At least 6 characters"
+        /><br /><br />
+
+        Gender:
+        <input type="radio" name="gender" value="male" /> Male
+        <input type="radio" name="gender" value="female" /> Female <br /><br />
+
+        Country:
+        <select>
+          <option>Cambodia</option>
+          <option>Thailand</option>
+          <option>Vietnam</option>
+        </select>
+        <br /><br />
+
+        Skills:
+        <input type="checkbox" name="skill" value="html" /> HTML
+        <input type="checkbox" name="skill" value="css" /> CSS
+        <input type="checkbox" name="skill" value="js" /> JavaScript
+        <br /><br />
+
+        A short bio:<br />
+        <textarea
+          rows="4"
+          cols="30"
+          placeholder="Write your bio here (Max 200 characters)"
+        ></textarea
+        ><br /><br />
+
+        <button type="submit">Submit</button>
+      </form>
+    </fieldset>
+  </body>
+</html>

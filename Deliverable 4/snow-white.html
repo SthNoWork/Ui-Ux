@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Movie Detail</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background-color: #222;
+        display: flex;
+        justify-content: center;
+        padding: 10px;
+        height: 100vh;
+      }
+
+      .iphone-screen {
+        width: 375px;
+        height: 812px;
+        background-color: #8fe8c7;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        position: relative;
+        box-sizing: border-box;
+      }
+
+      /* HEADER */
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 0;
+        border-bottom: 2px solid #b73232;
+        position: sticky;
+        top: 0;
+        background-color: #8fe8c7;
+        z-index: 10;
+      }
+      .header-title {
+        font-family: Georgia, serif;
+        font-size: 1.8em;
+        color: #b73232;
+        font-weight: bold;
+      }
+      .user-profile {
+        display: flex;
+        align-items: center;
+        font-weight: bold;
+        color: #333;
+      }
+      .user-avatar {
+        width: 30px;
+        height: 30px;
+        background-color: #333;
+        border-radius: 50%;
+        margin-left: 5px;
+      }
+
+      /* SCROLLABLE CONTENT */
+      .content {
+        flex: 1;
+        overflow-y: auto;
+        padding: 10px;
+        box-sizing: border-box;
+      }
+
+      /* POSTER */
+      .poster-container {
+        margin: 10px 0;
+      }
+      .poster-container img {
+        width: 100%;
+        border-radius: 10px;
+      }
+
+      /* MOVIE INFO */
+      .movie-title {
+        font-size: 1.5em;
+        font-weight: bold;
+        margin: 5px 0;
+      }
+
+      .movie-genres {
+        font-size: 0.9em;
+        font-weight: bold;
+        margin-bottom: 5px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+      }
+      .genre-box {
+        background-color: #fff;
+        color: #333;
+        padding: 3px 6px;
+        border-radius: 5px;
+        font-weight: normal;
+        font-size: 0.85em;
+      }
+
+      /* MOVIE STATS */
+      .movie-stats {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.85em;
+        color: #333;
+        margin-bottom: 10px;
+      }
+
+      /* DESCRIPTION */
+      .description {
+        font-size: 0.85em;
+        line-height: 1.3;
+        color: #333;
+        margin-bottom: 15px;
+      }
+
+      /* FRIENDS WHO WATCHED */
+      .friends-watched {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+        gap: 10px;
+      }
+      .friends-watched img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+      }
+
+      /* CINEMAS / DAY SCHEDULE */
+      .day-schedule {
+        margin-bottom: 20px;
+      }
+      .cinema {
+        margin-bottom: 15px;
+      }
+      .cinema-name {
+        font-weight: bold;
+        font-size: 1.1em;
+        margin-bottom: 5px;
+        color: #b73232;
+      }
+      .location {
+        padding-left: 10px;
+        margin-bottom: 8px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        border-left: 2px solid #b73232;
+      }
+      .location-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .location-name {
+        font-weight: bold;
+      }
+      .location-link {
+        text-decoration: none;
+        color: #333;
+        font-size: 0.85em;
+      }
+
+      /* HALLS */
+      .hall {
+        margin-bottom: 12px;
+      }
+      .hall-name {
+        font-weight: bold;
+        margin-bottom: 4px;
+      }
+      .hall-type-box,
+      .showtime-box {
+        display: inline-block;
+        padding: 3px 6px;
+        border-radius: 5px;
+        margin-right: 5px;
+        margin-bottom: 3px;
+        font-size: 0.85em;
+        color: #fff;
+      }
+      .hall-type-box {
+        background-color: #1976d2;
+      }
+      .showtime-box {
+        background-color: #f57c00;
+      }
+      .showtimes {
+        margin-top: 4px;
+      }
+
+      /* NAVIGATION BAR */
+      .navigation-bar {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        height: 60px;
+        background-color: #333;
+        box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
+        position: sticky;
+        bottom: 0;
+        z-index: 10;
+      }
+      .nav-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        color: #fff;
+        text-decoration: none;
+        font-size: 0.7em;
+        font-weight: bold;
+        padding: 5px;
+      }
+      .nav-item img {
+        width: 20px;
+        height: 20px;
+        border-radius: 2px;
+        margin-bottom: 3px;
+        background-color: transparent;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="iphone-screen">
+      <!-- HEADER -->
+      <div class="header">
+        <div class="header-title">Movies Ahoy!</div>
+        <div class="user-profile">
+          Username
+          <div class="user-avatar"></div>
+        </div>
+      </div>
+
+      <!-- SCROLLABLE CONTENT -->
+      <div class="content">
+        <!-- POSTER -->
+        <div class="poster-container">
+          <img
+            src="images/Home/Movies/Snow-White.jpg"
+            alt="Snow White Poster"
+          />
+        </div>
+
+        <!-- MOVIE INFO -->
+        <div class="movie-title">Snow White</div>
+        <div class="movie-genres">
+          <span class="genre-box">Fantasy</span>
+          <span class="genre-box">Adventure</span>
+          <span class="genre-box">Musical</span>
+          <span class="genre-box">Family</span>
+        </div>
+        <div class="movie-stats">
+          <div>PG 13</div>
+          <div>★ 2.2/10</div>
+          <div>1h 49m</div>
+          <div>25M views</div>
+        </div>
+
+        <!-- DESCRIPTION -->
+        <div class="description">
+          "In this live-action reimagining of the classic tale, Snow White must
+          navigate treacherous plots by her wicked stepmother while finding
+          friendship, courage, and love..."
+        </div>
+
+        <!-- FRIENDS WHO WATCHED (DYNAMIC) -->
+        <div id="friendsWatchedContainer" class="friends-watched"></div>
+
+        <!-- CINEMAS / DAY SCHEDULE -->
+        <div class="day-schedule">
+          <!-- Cinema 1 -->
+          <div class="cinema">
+            <div class="cinema-name">Big Cinema Name</div>
+            <!-- Location 1 -->
+            <div class="location">
+              <div class="location-header">
+                <span class="location-name">Location 1</span>
+                <a href="Friends.html" class="location-link">Link</a>
+              </div>
+              <div class="hall">
+                <div class="hall-name">Hall 1:</div>
+                <div class="hall-type-box">2D</div>
+                <div class="hall-type-box">ENG</div>
+                <div class="hall-type-box">CC</div>
+                <div class="hall-type-box">KH</div>
+                <div class="showtimes">
+                  <div class="showtime-box">12:00AM</div>
+                  <div class="showtime-box">3:00AM</div>
+                </div>
+              </div>
+              <div class="hall">
+                <div class="hall-name">Hall 2:</div>
+                <div class="hall-type-box">3D</div>
+                <div class="hall-type-box">ENG</div>
+                <div class="hall-type-box">CC</div>
+                <div class="hall-type-box">KH</div>
+                <div class="showtimes">
+                  <div class="showtime-box">1:00PM</div>
+                  <div class="showtime-box">4:00PM</div>
+                </div>
+              </div>
+            </div>
+            <!-- Location 2 -->
+            <div class="location">
+              <div class="location-header">
+                <span class="location-name">Location 2</span>
+                <a href="Friends.html" class="location-link">Link</a>
+              </div>
+              <div class="hall">
+                <div class="hall-name">Hall 1:</div>
+                <div class="hall-type-box">2D</div>
+                <div class="hall-type-box">ENG</div>
+                <div class="hall-type-box">CC</div>
+                <div class="hall-type-box">KH</div>
+                <div class="showtimes">
+                  <div class="showtime-box">2:00PM</div>
+                  <div class="showtime-box">5:00PM</div>
+                </div>
+              </div>
+              <div class="hall">
+                <div class="hall-name">Hall 2:</div>
+                <div class="hall-type-box">3D</div>
+                <div class="hall-type-box">ENG</div>
+                <div class="hall-type-box">CC</div>
+                <div class="hall-type-box">KH</div>
+                <div class="showtimes">
+                  <div class="showtime-box">3:00PM</div>
+                  <div class="showtime-box">6:00PM</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Cinema 2 -->
+          <div class="cinema">
+            <div class="cinema-name">Mega Cinema</div>
+            <div class="location">
+              <div class="location-header">
+                <span class="location-name">Location 1</span>
+                <a href="Friends.html" class="location-link">Link</a>
+              </div>
+              <div class="hall">
+                <div class="hall-name">Hall 1:</div>
+                <div class="hall-type-box">2D</div>
+                <div class="hall-type-box">ENG</div>
+                <div class="hall-type-box">CC</div>
+                <div class="hall-type-box">KH</div>
+                <div class="showtimes">
+                  <div class="showtime-box">12:30PM</div>
+                  <div class="showtime-box">3:30PM</div>
+                </div>
+              </div>
+              <div class="hall">
+                <div class="hall-name">Hall 2:</div>
+                <div class="hall-type-box">3D</div>
+                <div class="hall-type-box">ENG</div>
+                <div class="hall-type-box">CC</div>
+                <div class="hall-type-box">KH</div>
+                <div class="showtimes">
+                  <div class="showtime-box">2:30PM</div>
+                  <div class="showtime-box">5:30PM</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- NAVIGATION BAR -->
+      <div class="navigation-bar">
+        <a href="Home.html" class="nav-item">
+          <img src="images/Navigation/home.png" alt="Home" />
+          Home
+        </a>
+        <a href="Movies.html" class="nav-item">
+          <img src="images/Navigation/movies.png" alt="Movies" />
+          Movies
+        </a>
+        <a href="Groups.html" class="nav-item">
+          <img src="images/Navigation/groups.png" alt="Groups" />
+          Groups
+        </a>
+        <a href="Friends.html" class="nav-item">
+          <img src="images/Navigation/friends.png" alt="Friends" />
+          Friends
+        </a>
+        <a href="Settings.html" class="nav-item">
+          <img src="images/Navigation/setting.png" alt="Settings" />
+          Settings
+        </a>
+      </div>
+    </div>
+
+    <script>
+      const currentMovie = "Snow White";
+
+      const friendsData = [
+        {
+          username: "Alice",
+          movies: [
+            "Inception",
+            "Titanic",
+            "Interstellar",
+            "Avatar",
+            "Snow White",
+          ],
+          avatar: "images/Avatars/alice.jpg",
+        },
+        {
+          username: "Bob",
+          movies: ["The Matrix", "Inception", "Snow White"],
+          avatar: "images/Avatars/bob.jpg",
+        },
+        {
+          username: "Charlie",
+          movies: ["It", "The Shining", "Get Out"],
+          avatar: "images/Avatars/charlie.jpg",
+        },
+        {
+          username: "Evelyn",
+          movies: ["Se7en", "Gone Girl", "Shutter Island", "Snow White"],
+          avatar: "images/Avatars/evelyn.jpg",
+        },
+      ];
+
+      // FRIENDS WHO WATCHED
+      const friendsContainer = document.getElementById(
+        "friendsWatchedContainer"
+      );
+
+      const friendsWhoWatched = friendsData.filter((friend) =>
+        friend.movies.includes(currentMovie)
+      );
+
+      friendsWhoWatched.slice(0, 3).forEach((friend) => {
+        const img = document.createElement("img");
+        img.src = friend.avatar;
+        img.title = friend.username;
+        friendsContainer.appendChild(img);
+      });
+
+      if (friendsWhoWatched.length > 3) {
+        const moreSpan = document.createElement("span");
+        moreSpan.textContent = `+${friendsWhoWatched.length - 3} more`;
+        friendsContainer.appendChild(moreSpan);
+      }
+    </script>
+  </body>
+</html>
