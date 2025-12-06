@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Group Detail - Movies Ahoy!</title>
+    <title>The Gang - Movies Ahoy!</title>
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -15,12 +15,11 @@
 
       .iphone-screen {
         width: 375px;
-        min-height: 812px;
+        height: 812px;
         background-color: #8fe8c7;
         display: flex;
         flex-direction: column;
         position: relative;
-        overflow: hidden;
       }
 
       /* HEADER */
@@ -80,44 +79,118 @@
       /* CONTENT */
       .content {
         flex: 1;
-        padding: 15px;
+        padding: 10px 15px;
         overflow-y: auto;
       }
 
-      .invite-section {
-        background-color: rgba(255, 255, 255, 0.2);
-        border-radius: 10px;
-        padding: 15px;
+      .message-bubble {
+        display: flex;
         margin-bottom: 15px;
       }
 
-      .invite-section h3 {
-        margin: 0 0 10px 0;
+      .user-icon-bubble {
+        width: 40px;
+        height: 40px;
+        background-color: #333;
+        border-radius: 50%;
+        flex-shrink: 0;
+        margin-right: 10px;
       }
 
-      .invite-input {
-        width: 100%;
+      .movie-details {
+        background-color: rgba(255, 255, 255, 0.2);
+        border-radius: 10px;
         padding: 10px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .timestamp {
+        font-size: 0.75em;
+        color: #555;
+        margin-bottom: 5px;
+        text-align: right;
+      }
+
+      .movie-details img {
+        width: 100%;
         border-radius: 8px;
-        border: 2px solid #b73232;
-        outline: none;
-        margin-bottom: 10px;
-        box-sizing: border-box;
+        margin-bottom: 5px;
       }
 
-      .send-invite-btn {
-        padding: 10px;
-        width: 100%;
+      .movie-info {
+        font-size: 0.9em;
+        color: #333;
+        margin-bottom: 5px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+      }
+
+      .movie-info div {
+        margin-right: 5px;
+      }
+
+      .hall-link {
+        margin-left: auto;
+        color: blue;
+        cursor: pointer;
+        text-decoration: underline;
+        font-size: 0.9em;
+      }
+
+      .seats {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 5px;
+        margin: 5px 0;
+      }
+
+      .seat {
+        width: 30px;
+        height: 30px;
+        background-color: #fff;
+        border: 1px solid #333;
+        border-radius: 4px;
+        cursor: pointer;
+        text-align: center;
+        line-height: 30px;
+        font-size: 0.8em;
+      }
+
+      .seat.selected {
+        background-color: red;
+        color: #fff;
+      }
+
+      .buttons {
+        display: flex;
+        gap: 10px;
+        margin-top: 5px;
+      }
+
+      .accept-btn,
+      .decline-btn {
+        flex: 1;
+        padding: 8px;
         border: none;
-        border-radius: 8px;
-        background-color: #b73232;
-        color: white;
+        border-radius: 5px;
         font-weight: bold;
         cursor: pointer;
       }
 
+      .accept-btn {
+        background-color: #4caf50;
+        color: white;
+      }
+
+      .decline-btn {
+        background-color: #f44336;
+        color: white;
+      }
+
       .create-hangout-btn {
-        margin: 15px;
         padding: 15px;
         width: calc(100% - 30px);
         border: none;
@@ -127,6 +200,8 @@
         font-weight: bold;
         font-size: 1em;
         cursor: pointer;
+        margin: 10px 15px;
+        flex-shrink: 0;
       }
     </style>
   </head>
@@ -151,40 +226,113 @@
       </div>
 
       <!-- CONTENT -->
-      <div class="content">
-        <div class="invite-section">
-          <h3>Send a Movie Invite</h3>
-          <input
-            type="text"
-            placeholder="Enter movie name..."
-            class="invite-input"
-            id="movieInput"
-          />
-          <button class="send-invite-btn" onclick="sendInvite()">
-            Send Invite
-          </button>
+      <div class="content" id="messagesContainer">
+        <!-- Example message -->
+        <div class="message-bubble">
+          <div class="user-icon-bubble"></div>
+          <div class="movie-details">
+            <div class="timestamp">Dec 6, 2025 - 7:45 PM</div>
+            <img src="images/Home/Movies/Desert-Dawn.jpg" alt="Movie Poster" />
+            <div class="movie-info">
+              <div><strong>Title:</strong> Desert Dawn</div>
+              <div><strong>Cinema:</strong> Grand Cinema</div>
+              <div><strong>Location:</strong> Downtown</div>
+              <div><strong>Hall:</strong> Hall 3</div>
+              <div class="hall-link" onclick="alert('Open location link')">
+                Link
+              </div>
+            </div>
+            <div class="seats" id="seatsContainer"></div>
+            <div class="buttons">
+              <button class="accept-btn" onclick="alert('Accepted!')">
+                Accept
+              </button>
+              <button class="decline-btn" onclick="alert('Declined!')">
+                Decline
+              </button>
+            </div>
+          </div>
         </div>
       </div>
 
-      <button class="create-hangout-btn" onclick="createHangout()">
+      <button
+        class="create-hangout-btn"
+        onclick="alert('Create Movie Hangout clicked!')"
+      >
         Create Movie Hangout
       </button>
     </div>
 
     <script>
-      function sendInvite() {
-        const movie = document.getElementById("movieInput").value.trim();
-        if (movie) {
-          alert(`Movie invite for "${movie}" sent!`);
-          document.getElementById("movieInput").value = "";
-        } else {
-          alert("Please enter a movie name.");
+      // Generate seats dynamically
+      const seatsContainer = document.getElementById("seatsContainer");
+      for (let i = 1; i <= 30; i++) {
+        const seat = document.createElement("div");
+        seat.className = "seat";
+        seat.textContent = i;
+        seat.addEventListener("click", () => {
+          seat.classList.toggle("selected");
+        });
+        seatsContainer.appendChild(seat);
+      }
+
+      // Scrollable messages: add more messages dynamically if needed
+      const messagesContainer = document.getElementById("messagesContainer");
+      function addMessage(
+        title,
+        poster,
+        cinema,
+        location,
+        hall,
+        link,
+        timestamp
+      ) {
+        const msg = document.createElement("div");
+        msg.className = "message-bubble";
+        msg.innerHTML = `
+        <div class="user-icon-bubble"></div>
+        <div class="movie-details">
+          <div class="timestamp">${timestamp}</div>
+          <img src="${poster}" alt="Movie Poster">
+          <div class="movie-info">
+            <div><strong>Title:</strong> ${title}</div>
+            <div><strong>Cinema:</strong> ${cinema}</div>
+            <div><strong>Location:</strong> ${location}</div>
+            <div><strong>Hall:</strong> ${hall}</div>
+            <div class="hall-link" onclick="alert('Open location link')">${link}</div>
+          </div>
+          <div class="seats"></div>
+          <div class="buttons">
+            <button class="accept-btn" onclick="alert('Accepted!')">Accept</button>
+            <button class="decline-btn" onclick="alert('Declined!')">Decline</button>
+          </div>
+        </div>
+      `;
+        messagesContainer.appendChild(msg);
+
+        // Add seats to this message
+        const seatDiv = msg.querySelector(".seats");
+        for (let i = 1; i <= 30; i++) {
+          const seat = document.createElement("div");
+          seat.className = "seat";
+          seat.textContent = i;
+          seat.addEventListener("click", () =>
+            seat.classList.toggle("selected")
+          );
+          seatDiv.appendChild(seat);
         }
       }
 
-      function createHangout() {
-        alert("Create Movie Hangout clicked! (Functionality coming later)");
-      }
+      // Example: add another message
+      addMessage(
+        "Snow White",
+        "images/Home/Movies/Snow-White.jpg",
+        "Magic Cinema",
+        "Uptown",
+        "Hall 1",
+        "Link",
+        "Dec 6, 2025 - 8:15 PM"
+      );
     </script>
   </body>
 </html>

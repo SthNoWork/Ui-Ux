@@ -13,31 +13,31 @@
         justify-content: center;
         align-items: center;
         min-height: 100vh;
-        background-color: #222; /* Dark background for the outside area */
+        background-color: #222;
       }
 
       /* Container simulating the iPhone screen */
       .iphone-screen {
-        width: 375px; /* Common mobile width */
-        height: 812px; /* Common mobile height */
-        background-color: #8fe8c7; /* Teal/Mint color from the image */
+        width: 375px;
+        height: 812px;
+        background-color: #8fe8c7;
         padding: 40px 20px;
         box-sizing: border-box;
         display: flex;
         flex-direction: column;
         align-items: center;
-        border-radius: 30px; /* Optional rounded corners */
+        border-radius: 30px;
         box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
       }
 
       /* Header/Title */
       .app-title {
-        font-family: Georgia, serif; /* Trying to match the font style */
+        font-family: Georgia, serif;
         font-size: 3em;
-        color: #b73232; /* Reddish color */
+        color: #b73232;
         margin-bottom: 50px;
         font-weight: bold;
-        text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+        text-align: center;
       }
 
       /* Form Styling */
@@ -53,19 +53,14 @@
         margin-bottom: 15px;
         border: none;
         border-radius: 5px;
-        background-color: rgba(
-          255,
-          255,
-          255,
-          0.7
-        ); /* Slightly transparent white */
+        background-color: rgba(255, 255, 255, 0.7);
         box-sizing: border-box;
         font-size: 1em;
         outline: none;
       }
 
       .log-in-button {
-        background-color: #3b5998; /* Blue color for the button */
+        background-color: #3b5998;
         color: white;
         padding: 10px 30px;
         border: none;
@@ -86,7 +81,7 @@
         max-width: 300px;
         margin-bottom: 60px;
         font-size: 1.1em;
-        color: #3b5998; /* Blue color for links */
+        color: #3b5998;
       }
 
       .aux-links a {
@@ -107,7 +102,8 @@
         align-items: center;
         font-size: 1.1em;
         margin: 15px 0;
-        color: #333; /* Dark text for links */
+        color: #333;
+        cursor: pointer;
       }
 
       .social-login img {
@@ -121,14 +117,9 @@
     <div class="iphone-screen">
       <div class="app-title">Movies<br />Ahoy!</div>
 
-      <form class="login-form">
+      <form class="login-form" id="loginForm">
         <input type="email" placeholder="Email" class="input-field" required />
-        <input
-          type="password"
-          placeholder="Password"
-          class="input-field"
-          required
-        />
+        <input type="password" placeholder="Password" class="input-field" required />
         <button type="submit" class="log-in-button">Log In</button>
       </form>
 
@@ -139,18 +130,26 @@
 
       <div class="social-login">
         <p>
-          <img src="images/LogIn/Google.png" alt="Google Logo" /> Log in with
-          Google
+          <img src="images/LogIn/Google.png" alt="Google Logo" /> Log in with Google
         </p>
         <p>
-          <img src="images/LogIn/Apple.png" alt="Apple Logo" /> Log in with
-          Apple
+          <img src="images/LogIn/Apple.png" alt="Apple Logo" /> Log in with Apple
         </p>
         <p>
-          <img src="images/LogIn/Twitter.png" alt="Twitter Logo" /> Log in with
-          Twitter
+          <img src="images/LogIn/Twitter.png" alt="Twitter Logo" /> Log in with Twitter
         </p>
       </div>
     </div>
+
+    <script>
+      // Wait until the DOM is fully loaded
+      document.addEventListener("DOMContentLoaded", function () {
+        const loginForm = document.getElementById("loginForm");
+        loginForm.addEventListener("submit", function (e) {
+          e.preventDefault(); // Prevent default form submission
+          window.location.href = "Home.html"; // Redirect to Home.html
+        });
+      });
+    </script>
   </body>
 </html>

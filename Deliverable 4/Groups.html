@@ -88,6 +88,12 @@
         background-color: rgba(255, 255, 255, 0.2);
         border-radius: 10px;
         padding: 10px;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+
+      .group-card:hover {
+        background-color: rgba(255, 255, 255, 0.35);
       }
 
       .group-icon {
@@ -217,16 +223,19 @@
           name: "The Gang",
           status: '"My little Pony" in session',
           icon: "images/Groups/Group1.jpg",
+          page: "The-Gang.html",
         },
         {
           name: "Action Fans",
           status: '"The Matrix" join?',
           icon: "images/Groups/Group2.jpg",
+          page: "Action-Fans.html",
         },
         {
           name: "Drama Club",
           status: '"Titanic" ended',
           icon: "images/Groups/Group3.jpg",
+          page: "Drama-Club.html",
         },
       ];
 
@@ -244,17 +253,23 @@
           .forEach((group) => {
             const card = document.createElement("div");
             card.classList.add("group-card");
+
+            // Click to go to group's HTML page
+            card.addEventListener("click", () => {
+              window.location.href = group.page;
+            });
+
             const color = getStatusColor(group.status);
             card.innerHTML = `
-            <div class="group-icon"><img src="${group.icon}" /></div>
-            <div class="group-info">
-              <div class="group-name">${group.name}</div>
-              <div class="group-status">
-                <span class="status-indicator" style="background-color: ${color};"></span>
-                ${group.status}
+              <div class="group-icon"><img src="${group.icon}" /></div>
+              <div class="group-info">
+                <div class="group-name">${group.name}</div>
+                <div class="group-status">
+                  <span class="status-indicator" style="background-color: ${color};"></span>
+                  ${group.status}
+                </div>
               </div>
-            </div>
-          `;
+            `;
             groupList.appendChild(card);
           });
       }
