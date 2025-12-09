@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Grid Video Text Overlay</title>
+    <style>
+      /* CSS from the image */
+      * {
+        box-sizing: border-box;
+        padding: 0;
+        margin: 0;
+      }
+
+      body {
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      .grid-container2 {
+        display: grid;
+        justify-content: center;
+      }
+
+      .grid-container2 video {
+        width: 500px;
+        /* Occupies the first column */
+        grid-column: 1/2;
+        /* Occupies the first row */
+        grid-row: 1/2;
+      }
+
+      .grid-container2 .wrapper2 {
+        gap: 10px;
+        color: yellow;
+        width: 300px;
+        padding: 10px;
+        /* Occupies the same first column as the video, creating the overlay */
+        grid-column: 1/2;
+        /* Occupies the same first row as the video, creating the overlay */
+        grid-row: 1/2;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="grid-container2">
+      <video autoplay loop muted playsinline>
+        <source
+          src="media/video.mp4"
+        />
+      </video>
+
+      <div class="wrapper2">
+        <h2>Merry Christmas and Happy New Year</h2>
+        <p>
+          Wishing you a joyful Christmas and a brilliant New Year ahead!
+          Season's greetings and wishing you a prosperous New Year!
+        </p>
+      </div>
+    </div>
+  </body>
+</html>

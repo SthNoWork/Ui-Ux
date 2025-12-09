@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Grid Image Text Overlay</title>
+    <style>
+      /* CSS from the image */
+      * {
+        box-sizing: border-box;
+        padding: 0;
+        margin: 0;
+      }
+
+      body {
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      .grid-container {
+        max-width: 300px;
+        height: auto;
+        margin: 0 auto;
+        display: grid;
+        /* 1. Define a single area named 'stack' */
+        grid-template-areas: "stack";
+        /* 4. Align items to the bottom of the 'stack' area */
+        place-items: flex-end;
+      }
+
+      .grid-container img {
+        width: 100%;
+        height: 300px;
+        object-fit: cover;
+        /* 2. Place the image in the 'stack' area */
+        grid-area: stack;
+      }
+
+      .wrapper {
+        /* 3. Place the text wrapper in the same 'stack' area, causing it to overlay the image */
+        grid-area: stack;
+        width: 300px;
+        color: white;
+        padding: 20px;
+        display: grid;
+        gap: 10px;
+        /* Using background: linear-gradient() could be added here for a better readability fade effect */
+      }
+    </style>
+  </head>
+  <body>
+    <div class="grid-container">
+      <img src="media/image.png" alt="wallpaper" />
+      <div class="wrapper">
+        <h2>Hello World</h2>
+        <p>
+          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolores nisi
+          recusandae blanditiis at repudiandae veniam quibusdam placeat
+          aspernatur sed beatae?
+        </p>
+      </div>
+    </div>
+  </body>
+</html>
