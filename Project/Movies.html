@@ -202,8 +202,8 @@
       <div class="header">
         <div class="header-title">Movies Ahoy!</div>
         <div class="user-profile">
-          Username
-          <span class="user-icon"></span>
+          <span id="username">Username</span>
+          <span class="user-icon" id="userIcon"></span>
         </div>
       </div>
 
@@ -332,6 +332,26 @@
 
       // Initial load
       loadMovies(currentDay);
+      // Load logged-in user's name
+      const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+
+      if (!loggedInUser) {
+        window.location.href = "Login.html";
+      } else {
+        // Load username
+        const usernameEl = document.getElementById("username");
+        if (usernameEl) {
+          usernameEl.textContent = loggedInUser.fullName;
+        }
+
+        // Load profile picture
+        const userIcon = document.getElementById("userIcon");
+        if (userIcon && loggedInUser.pfp) {
+          userIcon.style.backgroundImage = `url(${loggedInUser.pfp})`;
+          userIcon.style.backgroundSize = "cover";
+          userIcon.style.backgroundPosition = "center";
+        }
+      }
     </script>
   </body>
 </html>

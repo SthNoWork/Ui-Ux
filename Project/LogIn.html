@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Movies Ahoy! Login</title>
+<style>
+  body { font-family: Arial, sans-serif; margin:0; display:flex; justify-content:center; align-items:center; min-height:100vh; background-color:#222; }
+  .iphone-screen { width:375px; height:812px; background-color:#8fe8c7; padding:40px 20px; display:flex; flex-direction:column; align-items:center; border-radius:30px; box-shadow:0 0 20px rgba(0,0,0,0.5); }
+  .app-title { font-family: Georgia, serif; font-size:3em; color:#b73232; margin-bottom:50px; font-weight:bold; text-align:center; }
+  .login-form { width:90%; max-width:300px; text-align:center; }
+  .input-field { width:100%; padding:15px 10px; margin-bottom:15px; border:none; border-radius:5px; background-color: rgba(255,255,255,0.7); font-size:1em; outline:none; box-sizing:border-box; }
+  .log-in-button { background-color:#3b5998; color:white; padding:10px 30px; border:none; border-radius:5px; cursor:pointer; font-weight:bold; text-transform:uppercase; font-size:0.9em; margin-top:5px; margin-bottom:30px; }
+  .aux-links { display:flex; justify-content:space-between; width:90%; max-width:300px; margin-bottom:60px; font-size:1.1em; color:#3b5998; }
+  .aux-links a { color:inherit; text-decoration:none; }
+</style>
+</head>
+<body>
+<div class="iphone-screen">
+  <div class="app-title">Movies<br>Ahoy!</div>
+
+  <form class="login-form" id="loginForm">
+    <input type="email" placeholder="Email" class="input-field" required />
+    <input type="password" placeholder="Password" class="input-field" required />
+    <button type="submit" class="log-in-button">Log In</button>
+  </form>
+
+  <div class="aux-links">
+    <a href="Signup.html">Sign up</a>
+    <a href="#">Help?</a>
+  </div>
+</div>
+
+<script>
+  async function hashPassword(password) {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(password);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map(b => b.toString(16).padStart(2,'0')).join('');
+  }
+
+  document.getElementById("loginForm").addEventListener("submit", async function(e){
+    e.preventDefault();
+
+    const email = this.querySelector('input[type="email"]').value;
+    const password = this.querySelector('input[type="password"]').value;
+    const hashedPassword = await hashPassword(password);
+
+    const users = JSON.parse(localStorage.getItem('users')) || [];
+    const user = users.find(u => u.email === email && u.password === hashedPassword);
+
+    if(user){
+      // Store logged-in user for Home page
+      localStorage.setItem('loggedInUser', JSON.stringify(user));
+
+      alert("Login successful! Welcome, " + user.fullName);
+      window.location.href = "Home.html";
+    } else {
+      alert("Incorrect email or password!");
+    }
+  });
+</script>
+</body>
+</html>

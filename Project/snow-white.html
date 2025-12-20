@@ -31,13 +31,14 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 10px 0;
+        padding: 10px;
         border-bottom: 2px solid #b73232;
         position: sticky;
         top: 0;
         background-color: #8fe8c7;
         z-index: 10;
       }
+
       .header-title {
         font-family: Georgia, serif;
         font-size: 1.8em;
@@ -50,12 +51,14 @@
         font-weight: bold;
         color: #333;
       }
-      .user-avatar {
+      .user-icon {
         width: 30px;
         height: 30px;
         background-color: #333;
         border-radius: 50%;
-        margin-left: 5px;
+        margin-left: 8px;
+        background-size: cover;
+        background-position: center;
       }
 
       /* SCROLLABLE CONTENT */
@@ -230,8 +233,8 @@
       <div class="header">
         <div class="header-title">Movies Ahoy!</div>
         <div class="user-profile">
-          Username
-          <div class="user-avatar"></div>
+          <span id="username">Username</span>
+          <span class="user-icon" id="userIcon"></span>
         </div>
       </div>
 
@@ -447,6 +450,25 @@
         const moreSpan = document.createElement("span");
         moreSpan.textContent = `+${friendsWhoWatched.length - 3} more`;
         friendsContainer.appendChild(moreSpan);
+      }
+      const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+
+      if (!loggedInUser) {
+        window.location.href = "Login.html";
+      } else {
+        // Load username
+        const usernameEl = document.getElementById("username");
+        if (usernameEl) {
+          usernameEl.textContent = loggedInUser.fullName;
+        }
+
+        // Load profile picture
+        const userIcon = document.getElementById("userIcon");
+        if (userIcon && loggedInUser.pfp) {
+          userIcon.style.backgroundImage = `url(${loggedInUser.pfp})`;
+          userIcon.style.backgroundSize = "cover";
+          userIcon.style.backgroundPosition = "center";
+        }
       }
     </script>
   </body>
