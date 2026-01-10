@@ -17,21 +17,8 @@ body {
   position: relative;
 }
 
-/* HEADER */
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px;
-  border-bottom: 2px solid #b73232;
-}
-
-.header-title {
-  font-family: Georgia, serif;
-  font-size: 1.8em;
-  color: #b73232;
-  font-weight: bold;
-}
+/* HEADER - use shared header styles from common.css to keep pages consistent */
+/* Per-page header overrides removed so `css/common.css` controls the header look */
 
 /* SETTINGS CONTENT */
 .settings-container {

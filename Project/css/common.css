@@ -3,24 +3,29 @@
 */
 
 /* Header */
+/* Header - centralized site-wide header styles (matches Home look) */
 .header{
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 16px;
+  padding: 15px 15px 10px;
+  border-bottom: 2px solid #b73232;
+  flex-shrink: 0;
 }
 
 .header-title{
-  font-family: 'Segoe UI', Roboto, Arial, sans-serif;
-  font-weight: 700;
-  font-size: 1.15rem;
-  color: #222;
+  font-family: Georgia, serif;
+  font-size: 1.8em;
+  color: #b73232;
+  font-weight: bold;
 }
 
 .user-profile{
   display: flex;
   align-items: center;
-  gap: 8px;
+  font-size: 1.1em;
+  font-weight: bold;
+  color: #333;
 }
 
 .user-profile #username{
@@ -29,22 +34,28 @@
 }
 
 .user-icon{
-  width: 36px;
-  height: 36px;
+  margin-left: 10px;
+  width: 30px;
+  height: 30px;
+  background-color: #333;
   border-radius: 50%;
-  background-color: #ddd;
   background-size: cover;
   background-position: center;
   display: inline-block;
 }
 
 /* Navigation / Footer */
-.navigation-bar{
+.navigation-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
   display: flex;
   justify-content: space-around;
   align-items: center;
-  padding: 8px 6px;
-  /* background and border left to page-specific CSS */
+  height: 60px;
+  background-color: #333;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
 }
 
 .navigation-bar .nav-item{
