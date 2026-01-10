@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Movie Detail</title>
+    <title>Movie Detail — Desert Dawn</title>
     <link rel="stylesheet" href="css/common.css">
     <link rel="stylesheet" href="css/EachMovie.css">
   </head>
@@ -23,31 +23,29 @@
         <!-- POSTER -->
         <div class="poster-container">
           <img
-            src="images/Home/Movies/Snow-White.jpg"
-            alt="Snow White Poster"
+            src="images/Home/Movies/Desert-Dawn.jpg"
+            alt="Desert Dawn Poster"
           />
         </div>
 
         <!-- MOVIE INFO -->
-        <div class="movie-title">Snow White</div>
+        <div class="movie-title">Desert Dawn</div>
         <div class="movie-genres">
-          <span class="genre-box">Fantasy</span>
+          <span class="genre-box">Drama</span>
           <span class="genre-box">Adventure</span>
-          <span class="genre-box">Musical</span>
-          <span class="genre-box">Family</span>
+          <span class="genre-box">Thriller</span>
         </div>
         <div class="movie-stats">
           <div>PG 13</div>
-          <div>★ 2.2/10</div>
-          <div>1h 49m</div>
-          <div>25M views</div>
+          <div>★ 4.1/10</div>
+          <div>1h 55m</div>
+          <div>12M views</div>
         </div>
 
         <!-- DESCRIPTION -->
         <div class="description">
-          "In this live-action reimagining of the classic tale, Snow White must
-          navigate treacherous plots by her wicked stepmother while finding
-          friendship, courage, and love..."
+          "A tense survival drama set across an unforgiving desert, following
+          a group of strangers whose paths collide as they race to safety."
         </div>
 
         <!-- FRIENDS WHO WATCHED (DYNAMIC) -->
@@ -71,8 +69,8 @@
                 <div class="hall-type-box">CC</div>
                 <div class="hall-type-box">KH</div>
                 <div class="showtimes">
-                  <div class="showtime-box">1:00PM</div>
-                  <div class="showtime-box">4:00PM</div>
+                  <div class="showtime-box">1:30PM</div>
+                  <div class="showtime-box">4:30PM</div>
                 </div>
               </div>
             </div>
@@ -168,23 +166,17 @@
     </div>
 
     <script>
-      const currentMovie = "Snow White";
+      const currentMovie = "Desert Dawn";
 
       const friendsData = [
         {
           username: "Alice",
-          movies: [
-            "Inception",
-            "Titanic",
-            "Interstellar",
-            "Avatar",
-            "Snow White",
-          ],
+          movies: ["Inception", "Titanic", "Desert Dawn", "Avatar"],
           avatar: "images/Avatars/alice.jpg",
         },
         {
           username: "Bob",
-          movies: ["The Matrix", "Inception", "Snow White"],
+          movies: ["The Matrix", "Desert Dawn"],
           avatar: "images/Avatars/bob.jpg",
         },
         {
@@ -194,7 +186,7 @@
         },
         {
           username: "Evelyn",
-          movies: ["Se7en", "Gone Girl", "Shutter Island", "Snow White"],
+          movies: ["Se7en", "Gone Girl", "Shutter Island"],
           avatar: "images/Avatars/evelyn.jpg",
         },
       ];
@@ -220,6 +212,7 @@
         moreSpan.textContent = `+${friendsWhoWatched.length - 3} more`;
         friendsContainer.appendChild(moreSpan);
       }
+
       const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
 
       if (!loggedInUser) {

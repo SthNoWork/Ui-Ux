@@ -1,0 +1,89 @@
+/* common.css
+   Styles shared across all pages: header, user profile, and navigation/footer
+*/
+
+/* Header */
+.header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 16px;
+}
+
+.header-title{
+  font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: #222;
+}
+
+.user-profile{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.user-profile #username{
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.user-icon{
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: #ddd;
+  background-size: cover;
+  background-position: center;
+  display: inline-block;
+}
+
+/* Navigation / Footer */
+.navigation-bar{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 8px 6px;
+  /* background and border left to page-specific CSS */
+}
+
+.navigation-bar .nav-item{
+  text-decoration: none;
+  font-size: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.navigation-bar .nav-item .icon{
+  width: 20px;
+  height: 20px;
+  display: block;
+}
+
+/* Small helpers */
+.iphone-screen{ /* keep layout consistent across pages */
+  width: 375px;
+  height: 812px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+/* Ensure header and nav are visually consistent on small screens */
+@media (max-width: 480px){
+  .header-title{ font-size: 1rem; }
+  .user-icon{ width:32px; height:32px; }
+}
+
+/* Prevent horizontal page scrolling globally (keeps vertical scroll) */
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* Make images responsive within the fixed screen */
+img { max-width: 100%; height: auto; display: block; }

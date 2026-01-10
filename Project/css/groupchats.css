@@ -1,0 +1,297 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  background-color: #222;
+}
+
+.iphone-screen {
+  width: 375px;
+  height: 812px;
+  background-color: #8fe8c7;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* avoid horizontal overflow inside the fixed screen */
+.iphone-screen { overflow-x: hidden; }
+
+/* HEADER */
+.header {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  background-color: #8fe8c7;
+  border-bottom: 2px solid #b73232;
+}
+
+/* Ensure header title and group name are bold and user icon matches standard size */
+.header-title {
+  font-weight: 700;
+  font-family: Georgia, serif;
+  font-size: 1.8em;
+  color: #b73232;
+}
+.user-profile #username {
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+.user-icon {
+  margin-left: 10px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+}
+
+.back-btn {
+  padding: 5px 10px;
+  margin-right: 10px;
+  background-color: #b73232;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.group-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.group-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.group-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.group-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.group-name {
+  font-weight: bold;
+  font-size: 1.2em;
+  color: #333;
+}
+
+.group-bio {
+  font-size: 0.9em;
+  color: #555;
+}
+
+/* CONTENT */
+.content {
+  flex: 1;
+  padding: 10px 15px;
+  overflow-y: auto;
+}
+
+.message-bubble {
+  display: flex;
+  margin-bottom: 15px;
+}
+
+/* Messages created by the logged-in user appear on the right */
+.message-bubble.mine {
+  flex-direction: row-reverse;
+}
+.message-bubble.mine .movie-details {
+  background-color: rgba(0,0,0,0.12);
+}
+.message-bubble.mine .timestamp {
+  text-align: left;
+}
+
+/* ensure message content doesn't force horizontal scroll */
+.message-bubble,
+.movie-details,
+.buttons,
+.seats {
+  box-sizing: border-box;
+  max-width: 100%;
+  overflow-x: hidden;
+  word-break: break-word;
+}
+
+.user-icon-bubble {
+  width: 40px;
+  height: 40px;
+  background-color: #333;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-right: 10px;
+}
+
+/* ensure avatar images fill the bubble */
+.user-icon-bubble {
+  background-size: cover;
+  background-position: center;
+}
+
+.movie-details {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  padding: 10px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.timestamp {
+  font-size: 0.75em;
+  color: #555;
+  margin-bottom: 5px;
+  text-align: right;
+}
+
+.movie-details img {
+  width: 100%;
+  border-radius: 8px;
+  margin-bottom: 5px;
+}
+
+.movie-info {
+  font-size: 0.9em;
+  color: #333;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.movie-info div {
+  display: block;
+  margin: 4px 0;
+}
+
+.hall-link {
+  margin-left: auto;
+  color: blue;
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: 0.9em;
+}
+
+.seats {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 5px;
+  margin: 5px 0;
+}
+
+.seat {
+  width: 30px;
+  height: 30px;
+  background-color: #fff;
+  border: 1px solid #333;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: center;
+  line-height: 30px;
+  font-size: 0.8em;
+}
+
+.seat.selected {
+  background-color: red;
+  color: #fff;
+}
+
+.seat.accepted {
+  background-color: #4caf50;
+  color: #fff;
+}
+
+.accepted-label {
+  padding: 8px 12px;
+  background-color: #4caf50;
+  color: #fff;
+  border-radius: 6px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.declined-label {
+  padding: 8px 12px;
+  background-color: #f44336;
+  color: #fff;
+  border-radius: 6px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 5px;
+}
+
+.accept-btn,
+.decline-btn {
+  flex: 1;
+  padding: 8px;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.accept-btn {
+  background-color: #4caf50;
+  color: white;
+}
+
+.decline-btn {
+  background-color: #f44336;
+  color: white;
+}
+
+.create-hangout-btn {
+  padding: 15px;
+  width: calc(100% - 30px);
+  border: none;
+  border-radius: 10px;
+  background-color: #1976d2;
+  color: white;
+  font-weight: bold;
+  font-size: 1em;
+  cursor: pointer;
+  margin: 10px 15px;
+  flex-shrink: 0;
+}
+
+/* Modal for creating hangout */
+.hangout-modal-overlay{
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 50;
+}
+.hangout-modal{
+  width: 330px;
+  background: #fff;
+  border-radius: 10px;
+  padding: 12px;
+  box-sizing: border-box;
+}
+.hangout-modal h3{ margin: 0 0 8px; font-size: 1.1em; }
+.hangout-modal label{ display:block; font-size:0.85em; margin-top:8px; color:#333; }
+.hangout-modal input[type="text"], .hangout-modal select{ width:100%; padding:8px; margin-top:6px; box-sizing:border-box; border-radius:6px; border:1px solid #ccc; }
+.hangout-modal .modal-actions{ display:flex; gap:8px; margin-top:10px; }
+.hangout-modal .btn{ flex:1; padding:8px; border-radius:6px; border:none; cursor:pointer; }
+.hangout-modal .btn.cancel{ background:#e0e0e0; }
+.hangout-modal .btn.create{ background:#1976d2; color:#fff; }
+

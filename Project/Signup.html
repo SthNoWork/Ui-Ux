@@ -4,16 +4,8 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Movies Ahoy! Sign Up</title>
-<style>
-  body { font-family: Arial, sans-serif; margin:0; display:flex; justify-content:center; align-items:center; min-height:100vh; background-color:#222; }
-  .iphone-screen { width:375px; height:812px; background-color:#8fe8c7; padding:40px 20px; display:flex; flex-direction:column; align-items:center; border-radius:30px; box-shadow:0 0 20px rgba(0,0,0,0.5); }
-  .app-title { font-family: Georgia, serif; font-size:3em; color:#b73232; margin-bottom:40px; font-weight:bold; text-align:center; }
-  .signup-form { width:90%; max-width:300px; text-align:center; }
-  .input-field { width:100%; padding:15px 10px; margin-bottom:15px; border:none; border-radius:5px; background-color: rgba(255,255,255,0.7); font-size:1em; outline:none; box-sizing:border-box; }
-  .sign-up-button { background-color:#b73232; color:white; padding:10px 30px; border:none; border-radius:5px; cursor:pointer; font-weight:bold; text-transform:uppercase; font-size:0.9em; margin-top:5px; margin-bottom:20px; }
-  .aux-links { display:flex; justify-content:center; width:90%; max-width:300px; margin-bottom:40px; font-size:1em; color:#3b5998; }
-  .aux-links a { color:inherit; text-decoration:none; margin:0 10px; }
-</style>
+<link rel="stylesheet" href="css/common.css">
+<link rel="stylesheet" href="css/Signup.css">
 </head>
 <body>
 <div class="iphone-screen">
@@ -40,7 +32,6 @@
     const hashArray = Array.from(new Uint8Array(hashBuffer));
     return hashArray.map(b => b.toString(16).padStart(2,'0')).join('');
   }
-
   document.getElementById("signupForm").addEventListener("submit", async function(e){
     e.preventDefault();
 
@@ -54,21 +45,41 @@
       return;
     }
 
-    const hashedPassword = await hashPassword(password);
-
-    let users = JSON.parse(localStorage.getItem('users')) || [];
-
-    if(users.some(u => u.email === email)){
-      alert("This email is already registered!");
-      return;
+    // Try server signup first (optional server). If server not running, fallback to localStorage.
+    try {
+      const res = await fetch('/api/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ fullName, email, password })
+      });
+      if (res.ok) {
+        alert('Sign up successful (saved to users.csv)');
+        window.location.href = 'Login.html';
+        return;
+      } else {
+        const err = await res.json().catch(()=>({}));
+        if (res.status === 409) {
+          alert(err.error || 'Email already registered');
+          return;
+        }
+        console.warn('Server signup failed, falling back to local storage', err);
+      }
+    } catch (e) {
+      // server not running
+      console.warn('Server not available, saving locally');
     }
 
+    // Fallback: save locally (works with Live Server only)
+    const hashedPassword = await hashPassword(password);
+    let users = JSON.parse(localStorage.getItem('users')) || [];
+    if(users.some(u => u.email === email)){
+      alert('This email is already registered (local)');
+      return;
+    }
     users.push({ fullName, email, password: hashedPassword });
-
     localStorage.setItem('users', JSON.stringify(users));
-
-    alert("Sign up successful!");
-    window.location.href = "Login.html";
+    alert('Sign up saved locally (no server)');
+    window.location.href = 'Login.html';
   });
 </script>
 </body>

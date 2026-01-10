@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>The Gang - Movies Ahoy!</title>
+    <title>Action Fans - Movies Ahoy!</title>
     <link rel="stylesheet" href="css/common.css">
     <link rel="stylesheet" href="css/groupchats.css">
   </head>
@@ -24,14 +24,14 @@
         <div class="message-bubble">
           <div class="user-icon-bubble" style="background-image: url('images/Avatars/bob.jpg'); background-size:cover; background-position:center;"></div>
           <div class="movie-details">
-            <div class="timestamp">Dec 6, 2025 - 7:45 PM</div>
-            <img src="images/Home/Movies/Desert-Dawn.jpg" alt="Movie Poster" />
+            <div class="timestamp">Dec 8, 2025 - 6:30 PM</div>
+            <img src="images/Home/Movies/The-Great-Escape.jpg" alt="Movie Poster" />
             <div class="movie-info">
-              <div><strong>Title:</strong> Desert Dawn</div>
-              <div><strong>Cinema:</strong> Grand Cinema</div>
-              <div><strong>Location:</strong> Downtown</div>
-              <div><strong>Showtime:</strong> 7:45 PM</div>
-              <div><strong>Hall:</strong> Hall 3</div>
+              <div><strong>Title:</strong> The Great Escape</div>
+              <div><strong>Cinema:</strong> Downtown Screens</div>
+              <div><strong>Location:</strong> Riverside</div>
+              <div><strong>Showtime:</strong> 6:30 PM</div>
+              <div><strong>Hall:</strong> Hall A</div>
               <div class="hall-link" onclick="alert('Open location link')">
                 Link
               </div>
@@ -59,9 +59,9 @@
           <label for="movieSelect">Movie</label>
           <select id="movieSelect">
             <option value="">— choose movie —</option>
+            <option value="The Great Escape">The Great Escape</option>
             <option value="Desert Dawn">Desert Dawn</option>
             <option value="Snow White">Snow White</option>
-            <option value="The Great Escape">The Great Escape</option>
           </select>
 
           <label for="cinemaSelect">Cinema</label>
@@ -87,7 +87,7 @@
     <script>
       // Chat persistence: save/load messages to localStorage per group
       const messagesContainer = document.getElementById("messagesContainer");
-      const GROUP_KEY = 'group_chat_The-Gang';
+      const GROUP_KEY = 'group_chat_Action-Fans';
       let storedMessages = [];
 
       function saveStoredMessages(){
@@ -116,36 +116,26 @@
           </div>
         `;
 
-        // avatar
         const icon = msgEl.querySelector('.user-icon-bubble');
-        if (icon && msg.avatar) {
-          icon.style.backgroundImage = `url(${msg.avatar})`;
-          icon.style.backgroundSize = 'cover';
-          icon.style.backgroundPosition = 'center';
-        }
+        if (icon && msg.avatar){ icon.style.backgroundImage = `url(${msg.avatar})`; icon.style.backgroundSize='cover'; icon.style.backgroundPosition='center'; }
 
-        // buttons
         const buttons = msgEl.querySelector('.buttons');
         if (msg.status === 'accepted') buttons.innerHTML = '<div class="accepted-label">Accepted</div>';
         else if (msg.status === 'declined') buttons.innerHTML = '<div class="declined-label">Declined</div>';
         else buttons.innerHTML = '<button class="accept-btn">Accept</button><button class="decline-btn">Decline</button>';
 
-        // seats
         const seatDiv = msgEl.querySelector('.seats');
         for (let i = 0; i < 30; i++){
-          const seat = document.createElement('div'); seat.className = 'seat'; seat.textContent = i+1;
+          const seat = document.createElement('div'); seat.className='seat'; seat.textContent = i+1;
           const state = (msg.seats && msg.seats[i]) || 'none';
           if (state === 'selected') seat.classList.add('selected');
           if (state === 'accepted') { seat.classList.add('accepted'); seat.style.pointerEvents='none'; }
           seat.addEventListener('click', ()=>{
             if (msg.status === 'accepted' || msg.status === 'declined') return;
-            // toggle selected
             const idx = i;
-            const current = (msg.seats && msg.seats[idx]) || 'none';
             msg.seats = msg.seats || Array(30).fill('none');
-            msg.seats[idx] = current === 'selected' ? 'none' : 'selected';
+            msg.seats[idx] = msg.seats[idx] === 'selected' ? 'none' : 'selected';
             if (msg.seats[idx] === 'selected') seat.classList.add('selected'); else seat.classList.remove('selected');
-            // persist
             const found = storedMessages.find(m=>m.id===msg.id);
             if (found){ found.seats = msg.seats; saveStoredMessages(); }
           });
@@ -156,18 +146,12 @@
       }
 
       function loadStoredMessages(){
-        try{
-          const raw = localStorage.getItem(GROUP_KEY);
-          storedMessages = raw ? JSON.parse(raw) : [];
-        }catch(e){ storedMessages = []; }
+        try{ const raw = localStorage.getItem(GROUP_KEY); storedMessages = raw ? JSON.parse(raw) : []; }catch(e){ storedMessages = []; }
         messagesContainer.innerHTML = '';
         if (storedMessages.length === 0){
-          // seed with default example
-          const now = 'Dec 6, 2025 - 7:45 PM';
-          postMessage({ title: 'Desert Dawn', poster: 'images/Home/Movies/Desert-Dawn.jpg', cinema: 'Grand Cinema', location: 'Downtown', hall: 'Hall 3', showtime: '7:45PM', link: 'Link', timestamp: now, avatar: 'images/Avatars/bob.jpg' });
-        } else {
-          storedMessages.forEach(m=> renderMessage(m));
-        }
+          const now = 'Dec 8, 2025 - 6:30 PM';
+          postMessage({ title: 'The Great Escape', poster: 'images/Home/Movies/The-Great-Escape.jpg', cinema: 'Downtown Screens', location: 'Riverside', hall: 'Hall A', showtime: '6:30PM', link: 'Link', timestamp: now, avatar: 'images/Avatars/bob.jpg' });
+        } else { storedMessages.forEach(m=> renderMessage(m)); }
       }
 
       function postMessage(data){
@@ -177,14 +161,14 @@
 
       // initial load
       loadStoredMessages();
-    
+
       // Show group header (group name + group image) for this group chat
       (function(){
         try{
           const usernameEl = document.getElementById('username');
           const userIcon = document.getElementById('userIcon');
-          const groupName = 'The Gang';
-          const groupImage = 'images/Groups/Group1.jpg';
+          const groupName = 'Action Fans';
+          const groupImage = 'images/Groups/Group2.jpg';
 
           if (usernameEl) usernameEl.textContent = groupName;
           if (userIcon) {
@@ -212,17 +196,17 @@
           seats.forEach((s, idx) => {
             if (s.classList.contains('selected')){
               s.classList.remove('selected'); s.classList.add('accepted'); s.style.pointerEvents = 'none';
-              if (stored){ stored.seats[idx] = 'accepted'; }
+              if (stored) stored.seats[idx] = 'accepted';
             }
           });
-          if (stored) { stored.status = 'accepted'; }
+          if (stored) stored.status = 'accepted';
           const buttons = msgEl.querySelector('.buttons');
           if (buttons) buttons.innerHTML = '<div class="accepted-label">Accepted</div>';
           saveStoredMessages();
         }
 
         if (declineBtn){
-          if (stored) { stored.status = 'declined'; }
+          if (stored) stored.status = 'declined';
           const seats = msgEl.querySelectorAll('.seat');
           seats.forEach(s => s.style.pointerEvents = 'none');
           const buttons = msgEl.querySelector('.buttons');
@@ -238,63 +222,16 @@
       const cancelHangout = document.getElementById('cancelHangout');
       const createHangout = document.getElementById('createHangout');
 
-      // movie schedule data (extracted from each movie detail page)
+      // movie schedule data
       const moviesData = {
-        'Desert Dawn': {
-          poster: 'images/Home/Movies/Desert-Dawn.jpg',
-          cinemas: [
-            {
-              name: 'Big Cinema Name',
-              locations: [
-                { name: 'Location 1', halls: [ { name: 'Hall 1', times: ['1:30PM','4:30PM'] } ] },
-                { name: 'Location 2', halls: [ { name: 'Hall 1', times: ['2:00PM','5:00PM'] }, { name: 'Hall 2', times: ['3:00PM','6:00PM'] } ] }
-              ]
-            },
-            {
-              name: 'Mega Cinema',
-              locations: [
-                { name: 'Location 1', halls: [ { name: 'Hall 1', times: ['12:30PM','3:30PM'] }, { name:'Hall 2', times:['2:30PM','5:30PM'] } ] }
-              ]
-            }
-          ]
-        },
-        'Snow White': {
-          poster: 'images/Home/Movies/Snow-White.jpg',
-          cinemas: [
-            {
-              name: 'Big Cinema Name',
-              locations: [
-                { name: 'Location 1', halls: [ { name: 'Hall 1', times: ['1:00PM','4:00PM'] } ] },
-                { name: 'Location 2', halls: [ { name: 'Hall 1', times: ['2:00PM','5:00PM'] }, { name: 'Hall 2', times: ['3:00PM','6:00PM'] } ] }
-              ]
-            },
-            {
-              name: 'Mega Cinema',
-              locations: [
-                { name: 'Location 1', halls: [ { name: 'Hall 1', times: ['12:30PM','3:30PM'] }, { name:'Hall 2', times:['2:30PM','5:30PM'] } ] }
-              ]
-            }
-          ]
-        },
-        'The Great Escape': {
-          poster: 'images/Home/Movies/The-Great-Escape.jpg',
-          cinemas: [
-            {
-              name: 'Downtown Cinemas',
-              locations: [ { name: 'Main Hall', halls: [ { name: 'Hall A', times:['1:00PM','4:00PM','7:30PM'] } ] } ]
-            },
-            {
-              name: 'Riverside Multiplex',
-              locations: [ { name: 'Screen 2', halls: [ { name: 'Hall 2', times:['2:30PM','5:30PM'] } ] } ]
-            }
-          ]
-        }
+        'Desert Dawn': { poster: 'images/Home/Movies/Desert-Dawn.jpg', cinemas: [ { name: 'Grand Cinema', locations: [ { name: 'Downtown', halls: [ { name: 'Hall 3', times: ['7:45PM','10:30PM'] } ] } ] } ] },
+        'Snow White': { poster: 'images/Home/Movies/Snow-White.jpg', cinemas: [ { name: 'Magic Cinema', locations: [ { name: 'Uptown', halls: [ { name: 'Hall 1', times: ['1:00PM','4:00PM'] } ] } ] } ] },
+        'The Great Escape': { poster: 'images/Home/Movies/The-Great-Escape.jpg', cinemas: [ { name: 'Downtown Screens', locations: [ { name: 'Riverside', halls: [ { name: 'Hall A', times: ['6:30PM','9:30PM'] } ] } ] } ] }
       };
 
       function openHangoutModal(){ hangoutModal.style.display = 'flex'; }
       function closeHangoutModal(){ hangoutModal.style.display = 'none'; }
 
-      // select elements
       const movieSelectEl = document.getElementById('movieSelect');
       const cinemaSelectEl = document.getElementById('cinemaSelect');
       const locationSelectEl = document.getElementById('locationSelect');
@@ -309,9 +246,7 @@
         clearSelect(hallSelectEl);
         clearSelect(timeSelectEl);
         if (!movie || !moviesData[movie]) return;
-        moviesData[movie].cinemas.forEach(c => {
-          const opt = document.createElement('option'); opt.value = c.name; opt.textContent = c.name; cinemaSelectEl.appendChild(opt);
-        });
+        moviesData[movie].cinemas.forEach(c => { const opt = document.createElement('option'); opt.value = c.name; opt.textContent = c.name; cinemaSelectEl.appendChild(opt); });
       }
 
       function populateLocations(movie, cinemaName){
@@ -321,9 +256,7 @@
         if (!movie || !cinemaName) return;
         const cinema = (moviesData[movie].cinemas||[]).find(c=>c.name===cinemaName);
         if (!cinema) return;
-        cinema.locations.forEach(loc => {
-          const opt = document.createElement('option'); opt.value = loc.name; opt.textContent = loc.name; locationSelectEl.appendChild(opt);
-        });
+        cinema.locations.forEach(loc => { const opt = document.createElement('option'); opt.value = loc.name; opt.textContent = loc.name; locationSelectEl.appendChild(opt); });
       }
 
       function populateHalls(movie, cinemaName, locationName){
@@ -355,7 +288,6 @@
       cancelHangout.addEventListener('click', closeHangoutModal);
 
       createHangout.addEventListener('click', function(){
-        // validate all selects
         const title = movieSelectEl.value;
         const cinema = cinemaSelectEl.value;
         const location = locationSelectEl.value;
@@ -368,18 +300,15 @@
 
         const poster = (moviesData[title] && moviesData[title].poster) || 'images/Home/Movies/Snow-White.jpg';
 
-        // default SVG avatar when user hasn't set a profile picture
         const defaultSvg = `<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'><rect fill='%23e0e0e0' width='100' height='100'/><circle cx='50' cy='34' r='20' fill='%23949ca8'/><rect x='20' y='62' width='60' height='18' rx='9' fill='%23949ca8'/></svg>`;
         const defaultAvatar = 'data:image/svg+xml;utf8,' + encodeURIComponent(defaultSvg);
 
-        // determine avatar for 'us' from localStorage, otherwise use default silently
         let ourAvatar = defaultAvatar;
         try{
           const cur = JSON.parse(localStorage.getItem('loggedInUser'));
           if (cur && cur.pfp) ourAvatar = cur.pfp;
         }catch(e){}
 
-        // create the message using the selected values (timestamp = now, avatar = ourAvatar)
         const messageTimestamp = new Date().toLocaleString();
         postMessage({ title, poster, cinema, location, hall, showtime: time, link: 'Link', timestamp: messageTimestamp, avatar: ourAvatar });
         closeHangoutModal();

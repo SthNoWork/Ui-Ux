@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Movie Detail</title>
+    <title>Movie Detail — The Great Escape</title>
     <link rel="stylesheet" href="css/common.css">
     <link rel="stylesheet" href="css/EachMovie.css">
   </head>
@@ -23,31 +23,29 @@
         <!-- POSTER -->
         <div class="poster-container">
           <img
-            src="images/Home/Movies/Snow-White.jpg"
-            alt="Snow White Poster"
+            src="images/Home/Movies/The-Great-Escape.jpg"
+            alt="The Great Escape Poster"
           />
         </div>
 
         <!-- MOVIE INFO -->
-        <div class="movie-title">Snow White</div>
+        <div class="movie-title">The Great Escape</div>
         <div class="movie-genres">
-          <span class="genre-box">Fantasy</span>
-          <span class="genre-box">Adventure</span>
-          <span class="genre-box">Musical</span>
-          <span class="genre-box">Family</span>
+          <span class="genre-box">Action</span>
+          <span class="genre-box">Thriller</span>
+          <span class="genre-box">Crime</span>
         </div>
         <div class="movie-stats">
-          <div>PG 13</div>
-          <div>★ 2.2/10</div>
-          <div>1h 49m</div>
-          <div>25M views</div>
+          <div>R</div>
+          <div>★ 4.5/10</div>
+          <div>2h 10m</div>
+          <div>18M views</div>
         </div>
 
         <!-- DESCRIPTION -->
         <div class="description">
-          "In this live-action reimagining of the classic tale, Snow White must
-          navigate treacherous plots by her wicked stepmother while finding
-          friendship, courage, and love..."
+          "A high-octane heist thriller where a team of hackers plan the
+          ultimate escape while the city races to stop them."
         </div>
 
         <!-- FRIENDS WHO WATCHED (DYNAMIC) -->
@@ -57,51 +55,22 @@
         <div class="day-schedule">
           <!-- Cinema 1 -->
           <div class="cinema">
-            <div class="cinema-name">Big Cinema Name</div>
+            <div class="cinema-name">Downtown Cinemas</div>
             <!-- Location 1 -->
             <div class="location">
               <div class="location-header">
-                <span class="location-name">Location 1</span>
+                <span class="location-name">Main Hall</span>
                 <a href="Friends.html" class="location-link">Link</a>
               </div>
               <div class="hall">
-                <div class="hall-name">Hall 1:</div>
-                <div class="hall-type-box">2D</div>
+                <div class="hall-name">Hall A:</div>
+                <div class="hall-type-box">IMAX</div>
                 <div class="hall-type-box">ENG</div>
                 <div class="hall-type-box">CC</div>
-                <div class="hall-type-box">KH</div>
                 <div class="showtimes">
                   <div class="showtime-box">1:00PM</div>
                   <div class="showtime-box">4:00PM</div>
-                </div>
-              </div>
-            </div>
-            <!-- Location 2 -->
-            <div class="location">
-              <div class="location-header">
-                <span class="location-name">Location 2</span>
-                <a href="Friends.html" class="location-link">Link</a>
-              </div>
-              <div class="hall">
-                <div class="hall-name">Hall 1:</div>
-                <div class="hall-type-box">2D</div>
-                <div class="hall-type-box">ENG</div>
-                <div class="hall-type-box">CC</div>
-                <div class="hall-type-box">KH</div>
-                <div class="showtimes">
-                  <div class="showtime-box">2:00PM</div>
-                  <div class="showtime-box">5:00PM</div>
-                </div>
-              </div>
-              <div class="hall">
-                <div class="hall-name">Hall 2:</div>
-                <div class="hall-type-box">3D</div>
-                <div class="hall-type-box">ENG</div>
-                <div class="hall-type-box">CC</div>
-                <div class="hall-type-box">KH</div>
-                <div class="showtimes">
-                  <div class="showtime-box">3:00PM</div>
-                  <div class="showtime-box">6:00PM</div>
+                  <div class="showtime-box">7:30PM</div>
                 </div>
               </div>
             </div>
@@ -109,29 +78,17 @@
 
           <!-- Cinema 2 -->
           <div class="cinema">
-            <div class="cinema-name">Mega Cinema</div>
+            <div class="cinema-name">Riverside Multiplex</div>
             <div class="location">
               <div class="location-header">
-                <span class="location-name">Location 1</span>
+                <span class="location-name">Screen 2</span>
                 <a href="Friends.html" class="location-link">Link</a>
               </div>
               <div class="hall">
-                <div class="hall-name">Hall 1:</div>
+                <div class="hall-name">Hall 2:</div>
                 <div class="hall-type-box">2D</div>
                 <div class="hall-type-box">ENG</div>
                 <div class="hall-type-box">CC</div>
-                <div class="hall-type-box">KH</div>
-                <div class="showtimes">
-                  <div class="showtime-box">12:30PM</div>
-                  <div class="showtime-box">3:30PM</div>
-                </div>
-              </div>
-              <div class="hall">
-                <div class="hall-name">Hall 2:</div>
-                <div class="hall-type-box">3D</div>
-                <div class="hall-type-box">ENG</div>
-                <div class="hall-type-box">CC</div>
-                <div class="hall-type-box">KH</div>
                 <div class="showtimes">
                   <div class="showtime-box">2:30PM</div>
                   <div class="showtime-box">5:30PM</div>
@@ -168,34 +125,23 @@
     </div>
 
     <script>
-      const currentMovie = "Snow White";
+      const currentMovie = "The Great Escape";
 
       const friendsData = [
         {
           username: "Alice",
-          movies: [
-            "Inception",
-            "Titanic",
-            "Interstellar",
-            "Avatar",
-            "Snow White",
-          ],
+          movies: ["Inception", "Titanic", "Desert Dawn"],
           avatar: "images/Avatars/alice.jpg",
         },
         {
           username: "Bob",
-          movies: ["The Matrix", "Inception", "Snow White"],
+          movies: ["The Great Escape", "Desert Dawn"],
           avatar: "images/Avatars/bob.jpg",
         },
         {
           username: "Charlie",
-          movies: ["It", "The Shining", "Get Out"],
+          movies: ["The Great Escape", "It"],
           avatar: "images/Avatars/charlie.jpg",
-        },
-        {
-          username: "Evelyn",
-          movies: ["Se7en", "Gone Girl", "Shutter Island", "Snow White"],
-          avatar: "images/Avatars/evelyn.jpg",
         },
       ];
 
@@ -220,6 +166,7 @@
         moreSpan.textContent = `+${friendsWhoWatched.length - 3} more`;
         friendsContainer.appendChild(moreSpan);
       }
+
       const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
 
       if (!loggedInUser) {

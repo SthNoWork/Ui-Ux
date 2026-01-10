@@ -4,16 +4,8 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Movies Ahoy! Login</title>
-<style>
-  body { font-family: Arial, sans-serif; margin:0; display:flex; justify-content:center; align-items:center; min-height:100vh; background-color:#222; }
-  .iphone-screen { width:375px; height:812px; background-color:#8fe8c7; padding:40px 20px; display:flex; flex-direction:column; align-items:center; border-radius:30px; box-shadow:0 0 20px rgba(0,0,0,0.5); }
-  .app-title { font-family: Georgia, serif; font-size:3em; color:#b73232; margin-bottom:50px; font-weight:bold; text-align:center; }
-  .login-form { width:90%; max-width:300px; text-align:center; }
-  .input-field { width:100%; padding:15px 10px; margin-bottom:15px; border:none; border-radius:5px; background-color: rgba(255,255,255,0.7); font-size:1em; outline:none; box-sizing:border-box; }
-  .log-in-button { background-color:#3b5998; color:white; padding:10px 30px; border:none; border-radius:5px; cursor:pointer; font-weight:bold; text-transform:uppercase; font-size:0.9em; margin-top:5px; margin-bottom:30px; }
-  .aux-links { display:flex; justify-content:space-between; width:90%; max-width:300px; margin-bottom:60px; font-size:1.1em; color:#3b5998; }
-  .aux-links a { color:inherit; text-decoration:none; }
-</style>
+<link rel="stylesheet" href="css/LogIn.css">
+<link rel="stylesheet" href="css/common.css">
 </head>
 <body>
 <div class="iphone-screen">
@@ -45,20 +37,68 @@
 
     const email = this.querySelector('input[type="email"]').value;
     const password = this.querySelector('input[type="password"]').value;
-    const hashedPassword = await hashPassword(password);
 
+    // Try server login first
+    try {
+      const res = await fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      });
+      if (res.ok) {
+        const data = await res.json();
+        // store minimal user info
+        localStorage.setItem('loggedInUser', JSON.stringify({ fullName: data.username, email: data.email }));
+        alert('Login successful! Welcome, ' + data.username);
+        window.location.href = 'Home.html';
+        return;
+      }
+    } catch (e) {
+      console.warn('Server not available, falling back to CSV/localStorage');
+    }
+
+    // Fallback: check localStorage users
+    const hashedPassword = await hashPassword(password);
     const users = JSON.parse(localStorage.getItem('users')) || [];
     const user = users.find(u => u.email === email && u.password === hashedPassword);
-
-    if(user){
-      // Store logged-in user for Home page
-      localStorage.setItem('loggedInUser', JSON.stringify(user));
-
-      alert("Login successful! Welcome, " + user.fullName);
-      window.location.href = "Home.html";
-    } else {
-      alert("Incorrect email or password!");
+    if (user) {
+      localStorage.setItem('loggedInUser', JSON.stringify({ fullName: user.fullName, email: user.email }));
+      alert('Login successful! Welcome, ' + user.fullName);
+      window.location.href = 'Home.html';
+      return;
     }
+
+    // Fallback: fetch users.csv served by Live Server and parse it
+    try {
+      const res = await fetch('users.csv');
+      if (res.ok) {
+        const text = await res.text();
+        const lines = text.split(/\r?\n/).filter(l => l.trim());
+        const header = lines.shift().split(',');
+        const parsed = lines.map(line => {
+          const cols = line.split(',');
+          const obj = {};
+          header.forEach((h,i)=> obj[h]=cols[i]||'');
+          return obj;
+        });
+        const found = parsed.find(u => u.email === email);
+        if (found) {
+          // passwords are hashed with bcrypt if server used, otherwise may be SHA-256 stored in CSV if manually added
+          // try comparing hashed SHA-256 value
+          const hashed = await hashPassword(password);
+          if (found.password === hashed) {
+            localStorage.setItem('loggedInUser', JSON.stringify({ fullName: found.username, email: found.email }));
+            alert('Login successful! Welcome, ' + found.username);
+            window.location.href = 'Home.html';
+            return;
+          }
+        }
+      }
+    } catch (e) {
+      console.warn('Could not read users.csv', e);
+    }
+
+    alert('Incorrect email or password!');
   });
 </script>
 </body>
