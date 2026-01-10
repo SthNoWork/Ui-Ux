@@ -20,13 +20,36 @@
 
       <!-- DEALS SECTION -->
       <div class="deals-section">
-        <div class="deals-header">Deals 🔥</div>
-        <div class="deals-carousel-container">
-          <div class="arrow arrow-left" id="prevBtn">&lt;</div>
-          <img class="deals-banner" src="images/Home/Deals/Banner1.jpg" />
-          <img class="deals-banner" src="images/Home/Deals/Banner2.jpg" />
-          <img class="deals-banner" src="images/Home/Deals/Banner3.jpg" />
-          <div class="arrow arrow-right" id="nextBtn">&gt;</div>
+        <div class="deals-header">🏴‍☠️ Treasure Deals 🔥</div>
+        <div class="carousel-wrapper">
+          <button class="carousel-arrow carousel-prev" id="prevBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+              <polyline points="15,18 9,12 15,6"></polyline>
+            </svg>
+          </button>
+          <div class="carousel-viewport">
+            <div class="carousel-track" id="carouselTrack">
+              <div class="carousel-slide">
+                <img src="images/Home/Deals/Banner1.jpg" alt="Deal 1" />
+              </div>
+              <div class="carousel-slide">
+                <img src="images/Home/Deals/Banner2.jpg" alt="Deal 2" />
+              </div>
+              <div class="carousel-slide">
+                <img src="images/Home/Deals/Banner3.jpg" alt="Deal 3" />
+              </div>
+            </div>
+          </div>
+          <button class="carousel-arrow carousel-next" id="nextBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+              <polyline points="9,6 15,12 9,18"></polyline>
+            </svg>
+          </button>
+        </div>
+        <div class="carousel-dots" id="carouselDots">
+          <span class="dot active" data-index="0"></span>
+          <span class="dot" data-index="1"></span>
+          <span class="dot" data-index="2"></span>
         </div>
       </div>
 
@@ -99,41 +122,121 @@
     </div>
 
     <script>
-      const banners = document.querySelectorAll(".deals-banner");
+      // ================================
+      // SMOOTH SLIDING CAROUSEL
+      // ================================
+      const track = document.getElementById('carouselTrack');
+      const slides = document.querySelectorAll('.carousel-slide');
+      const dots = document.querySelectorAll('.dot');
+      const totalSlides = slides.length;
       let currentIndex = 0;
+      let autoSlideInterval;
+      const AUTO_SLIDE_DELAY = 5000; // 5 seconds
 
-      function showBanner(index) {
-        banners.forEach((b, i) => {
-          b.style.display = i === index ? "block" : "none";
+      function updateCarousel(smooth = true) {
+        // Move the track
+        if (smooth) {
+          track.style.transition = 'transform 0.6s cubic-bezier(0.25, 0.1, 0.25, 1)';
+        } else {
+          track.style.transition = 'none';
+        }
+        track.style.transform = `translateX(-${currentIndex * 100}%)`;
+        
+        // Update dots
+        dots.forEach((dot, i) => {
+          dot.classList.toggle('active', i === currentIndex);
+        });
+        
+        // Update slide states for scaling effect
+        slides.forEach((slide, i) => {
+          slide.classList.toggle('active', i === currentIndex);
         });
       }
 
-      document.getElementById("nextBtn").addEventListener("click", () => {
-        currentIndex = (currentIndex + 1) % banners.length;
-        showBanner(currentIndex);
+      function nextSlide() {
+        currentIndex = (currentIndex + 1) % totalSlides;
+        updateCarousel();
+      }
+
+      function prevSlide() {
+        currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+        updateCarousel();
+      }
+
+      function goToSlide(index) {
+        currentIndex = index;
+        updateCarousel();
+      }
+
+      // Arrow buttons
+      document.getElementById('nextBtn').addEventListener('click', () => {
+        nextSlide();
+        resetAutoSlide();
       });
 
-      document.getElementById("prevBtn").addEventListener("click", () => {
-        currentIndex = (currentIndex - 1 + banners.length) % banners.length;
-        showBanner(currentIndex);
+      document.getElementById('prevBtn').addEventListener('click', () => {
+        prevSlide();
+        resetAutoSlide();
       });
 
-      showBanner(currentIndex);
+      // Dot navigation
+      dots.forEach(dot => {
+        dot.addEventListener('click', () => {
+          goToSlide(parseInt(dot.dataset.index));
+          resetAutoSlide();
+        });
+      });
 
-      // ---------------------------
-      // Load username dynamically
+      // Auto-slide
+      function startAutoSlide() {
+        autoSlideInterval = setInterval(nextSlide, AUTO_SLIDE_DELAY);
+      }
+
+      function resetAutoSlide() {
+        clearInterval(autoSlideInterval);
+        startAutoSlide();
+      }
+
+      // Pause on hover
+      const carouselWrapper = document.querySelector('.carousel-wrapper');
+      carouselWrapper.addEventListener('mouseenter', () => clearInterval(autoSlideInterval));
+      carouselWrapper.addEventListener('mouseleave', startAutoSlide);
+
+      // Touch/swipe support
+      let touchStartX = 0;
+      let touchEndX = 0;
+      
+      carouselWrapper.addEventListener('touchstart', e => {
+        touchStartX = e.changedTouches[0].screenX;
+      }, { passive: true });
+      
+      carouselWrapper.addEventListener('touchend', e => {
+        touchEndX = e.changedTouches[0].screenX;
+        const diff = touchStartX - touchEndX;
+        if (Math.abs(diff) > 50) {
+          if (diff > 0) nextSlide();
+          else prevSlide();
+          resetAutoSlide();
+        }
+      }, { passive: true });
+
+      // Initialize
+      updateCarousel(false);
+      startAutoSlide();
+
+      // ================================
+      // USER SESSION
+      // ================================
       const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
 
       if (!loggedInUser) {
         window.location.href = "Login.html";
       } else {
-        // Load username
         const usernameEl = document.getElementById("username");
         if (usernameEl) {
           usernameEl.textContent = loggedInUser.fullName;
         }
 
-        // Load profile picture
         const userIcon = document.getElementById("userIcon");
         if (userIcon && loggedInUser.pfp) {
           userIcon.style.backgroundImage = `url(${loggedInUser.pfp})`;
