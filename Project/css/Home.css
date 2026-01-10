@@ -1,68 +1,22 @@
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  min-height: 100vh;
-  background-color: #222;
-}
-
-.iphone-screen {
-  width: 375px;
-  height: 812px;
-  background-color: #8fe8c7;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  overflow: hidden;
-}
-
-/* HEADER */
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 15px 10px;
-  border-bottom: 2px solid #b73232;
-  flex-shrink: 0;
-}
-
-.header-title {
-  font-family: Georgia, serif;
-  font-size: 1.8em;
-  color: #b73232;
-  font-weight: bold;
-}
-
-.user-profile {
-  display: flex;
-  align-items: center;
-  font-size: 1.1em;
-  font-weight: bold;
-  color: #333;
-}
-
-.user-icon {
-  margin-left: 10px;
-  width: 30px;
-  height: 30px;
-  background-color: #333;
-  border-radius: 50%;
-}
+/* =========================================================
+   Home.css – Pirate-Themed Home Page
+   ========================================================= */
 
 /* DEALS SECTION */
 .deals-section {
   padding: 15px 0;
   text-align: center;
   flex-shrink: 0;
+  background: linear-gradient(180deg, rgba(139, 0, 0, 0.1) 0%, transparent 100%);
 }
 
 .deals-header {
-  font-size: 1.5em;
+  font-size: 1.4em;
   font-weight: bold;
-  color: #333;
-  margin-bottom: 10px;
+  color: var(--pirate-maroon);
+  margin-bottom: 12px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+  letter-spacing: 1px;
 }
 
 .deals-carousel-container {
@@ -79,8 +33,15 @@ body {
   width: 80%;
   height: 100%;
   object-fit: cover;
-  border-radius: 18px;
+  border-radius: 12px;
   display: none;
+  border: 3px solid var(--pirate-gold);
+  box-shadow: var(--shadow-soft);
+  transition: var(--transition-smooth);
+}
+
+.deals-banner:hover {
+  transform: scale(1.02);
 }
 
 .active-banner {
@@ -91,19 +52,22 @@ body {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  color: #333;
+  color: var(--pirate-gold);
   font-size: 2em;
   cursor: pointer;
-  padding: 0 10px;
+  padding: 0 15px;
   z-index: 10;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  transition: var(--transition-smooth);
 }
 
-.arrow-left {
-  left: 5px;
+.arrow:hover {
+  color: var(--pirate-sand);
+  transform: translateY(-50%) scale(1.2);
 }
-.arrow-right {
-  right: 5px;
-}
+
+.arrow-left { left: 5px; }
+.arrow-right { right: 5px; }
 
 /* POPULAR SECTION */
 .popular-section {
@@ -111,41 +75,53 @@ body {
   padding: 15px;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  padding-bottom: 70px; /* space for nav */
+  padding-bottom: 80px;
 }
 
 .popular-header {
-  font-size: 1.5em;
+  font-size: 1.3em;
   font-weight: bold;
-  color: #b73232;
+  color: var(--pirate-gold);
   text-align: center;
-  padding: 10px 0;
-  border-top: 2px solid #b73232;
-  border-bottom: 2px solid #b73232;
+  padding: 12px 0;
+  margin-bottom: 15px;
+  background: linear-gradient(180deg, var(--pirate-maroon) 0%, var(--pirate-crimson) 100%);
+  border-radius: 10px;
+  border: 2px solid var(--pirate-gold);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  letter-spacing: 1px;
 }
 
+/* Movie card enhancements */
 .movie-card {
   display: flex;
-  margin-bottom: 20px;
-  background-color: rgba(255, 255, 255, 0.2);
-  border-radius: 10px;
-  padding: 10px;
+  animation: fadeInUp 0.4s ease-out forwards;
 }
+
+.movie-card:nth-child(2) { animation-delay: 0.1s; }
+.movie-card:nth-child(3) { animation-delay: 0.2s; }
+.movie-card:nth-child(4) { animation-delay: 0.3s; }
 
 .movie-poster {
   width: 90px;
   height: 135px;
-  border-radius: 5px;
+  border-radius: 8px;
   flex-shrink: 0;
   overflow: hidden;
   margin-right: 15px;
+  border: 2px solid var(--pirate-wood);
+  box-shadow: var(--shadow-soft);
 }
 
 .movie-poster img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 5px;
+  transition: var(--transition-smooth);
+}
+
+.movie-card:hover .movie-poster img {
+  transform: scale(1.05);
 }
 
 .movie-details {
@@ -157,57 +133,26 @@ body {
 
 .movie-details h3 {
   margin: 0 0 5px;
-  color: #333;
-  font-size: 1.2em;
+  color: var(--pirate-maroon);
+  font-size: 1.15em;
+  font-family: 'Georgia', serif;
 }
 
 .movie-details p {
   margin: 0;
   font-size: 0.85em;
-  line-height: 1.3;
-  color: #555;
+  line-height: 1.4;
+  color: var(--text-secondary);
   display: -webkit-box;
-  -webkit-line-clamp: 5;
+  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .movie-details .stats {
   font-size: 0.9em;
   font-weight: bold;
-  color: #333;
-  margin-top: 10px;
-}
-
-/* NAVIGATION BAR */
-.navigation-bar {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  height: 60px;
-  background-color: #333;
-  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
-}
-
-.nav-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: #fff;
-  text-decoration: none;
-  font-size: 0.7em;
-  font-weight: bold;
-  padding: 5px;
-}
-
-.icon {
-  width: 20px;
-  height: 20px;
-  border-radius: 2px;
-  margin-bottom: 3px;
+  color: var(--pirate-gold);
+  margin-top: 8px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
 }
