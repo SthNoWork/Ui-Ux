@@ -1,11 +1,11 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Movies Ahoy! Home</title>
-    <link rel="stylesheet" href="css/common.css">
-    <link rel="stylesheet" href="css/Home.css">
+    <link rel="stylesheet" href="css/common.css" />
+    <link rel="stylesheet" href="css/Home.css" />
   </head>
   <body>
     <div class="iphone-screen">
@@ -23,7 +23,12 @@
         <div class="deals-header">🏴‍☠️ Treasure Deals 🔥</div>
         <div class="carousel-wrapper">
           <button class="carousel-arrow carousel-prev" id="prevBtn">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="3"
+            >
               <polyline points="15,18 9,12 15,6"></polyline>
             </svg>
           </button>
@@ -41,7 +46,12 @@
             </div>
           </div>
           <button class="carousel-arrow carousel-next" id="nextBtn">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="3"
+            >
               <polyline points="9,6 15,12 9,18"></polyline>
             </svg>
           </button>
@@ -69,7 +79,10 @@
           </div>
         </a>
 
-        <a href="the-great-escape.html" style="text-decoration: none; color: inherit">
+        <a
+          href="the-great-escape.html"
+          style="text-decoration: none; color: inherit"
+        >
           <div class="movie-card">
             <div class="movie-poster">
               <img src="images/Home/Movies/The-Great-Escape.jpg" />
@@ -82,7 +95,10 @@
           </div>
         </a>
 
-        <a href="desert-dawn.html" style="text-decoration: none; color: inherit">
+        <a
+          href="desert-dawn.html"
+          style="text-decoration: none; color: inherit"
+        >
           <div class="movie-card">
             <div class="movie-poster">
               <img src="images/Home/Movies/Desert-Dawn.jpg" />
@@ -122,34 +138,36 @@
     </div>
 
     <script>
-      // ================================
-      // SMOOTH SLIDING CAROUSEL
-      // ================================
-      const track = document.getElementById('carouselTrack');
-      const slides = document.querySelectorAll('.carousel-slide');
-      const dots = document.querySelectorAll('.dot');
+      const track = document.getElementById("carouselTrack");
+      const slides = document.querySelectorAll(".carousel-slide");
+      const dots = document.querySelectorAll(".dot");
       const totalSlides = slides.length;
       let currentIndex = 0;
       let autoSlideInterval;
-      const AUTO_SLIDE_DELAY = 5000; // 5 seconds
+      const AUTO_SLIDE_DELAY = 5000;
+
+      function getSlideWidth() {
+        const viewport = document.querySelector(".carousel-viewport");
+        return viewport ? viewport.getBoundingClientRect().width : 0;
+      }
 
       function updateCarousel(smooth = true) {
-        // Move the track
+        const slideWidth = getSlideWidth();
+
         if (smooth) {
-          track.style.transition = 'transform 0.6s cubic-bezier(0.25, 0.1, 0.25, 1)';
+          track.style.transition =
+            "transform 0.6s cubic-bezier(0.25, 0.1, 0.25, 1)";
         } else {
-          track.style.transition = 'none';
+          track.style.transition = "none";
         }
-        track.style.transform = `translateX(-${currentIndex * 100}%)`;
-        
-        // Update dots
+        track.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
+
         dots.forEach((dot, i) => {
-          dot.classList.toggle('active', i === currentIndex);
+          dot.classList.toggle("active", i === currentIndex);
         });
-        
-        // Update slide states for scaling effect
+
         slides.forEach((slide, i) => {
-          slide.classList.toggle('active', i === currentIndex);
+          slide.classList.toggle("active", i === currentIndex);
         });
       }
 
@@ -168,26 +186,23 @@
         updateCarousel();
       }
 
-      // Arrow buttons
-      document.getElementById('nextBtn').addEventListener('click', () => {
+      document.getElementById("nextBtn").addEventListener("click", () => {
         nextSlide();
         resetAutoSlide();
       });
 
-      document.getElementById('prevBtn').addEventListener('click', () => {
+      document.getElementById("prevBtn").addEventListener("click", () => {
         prevSlide();
         resetAutoSlide();
       });
 
-      // Dot navigation
-      dots.forEach(dot => {
-        dot.addEventListener('click', () => {
+      dots.forEach((dot) => {
+        dot.addEventListener("click", () => {
           goToSlide(parseInt(dot.dataset.index));
           resetAutoSlide();
         });
       });
 
-      // Auto-slide
       function startAutoSlide() {
         autoSlideInterval = setInterval(nextSlide, AUTO_SLIDE_DELAY);
       }
@@ -197,53 +212,51 @@
         startAutoSlide();
       }
 
-      // Pause on hover
-      const carouselWrapper = document.querySelector('.carousel-wrapper');
-      carouselWrapper.addEventListener('mouseenter', () => clearInterval(autoSlideInterval));
-      carouselWrapper.addEventListener('mouseleave', startAutoSlide);
+      const carouselWrapper = document.querySelector(".carousel-wrapper");
+      carouselWrapper.addEventListener("mouseenter", () =>
+        clearInterval(autoSlideInterval),
+      );
+      carouselWrapper.addEventListener("mouseleave", startAutoSlide);
 
-      // Touch/swipe support
       let touchStartX = 0;
       let touchEndX = 0;
-      
-      carouselWrapper.addEventListener('touchstart', e => {
-        touchStartX = e.changedTouches[0].screenX;
-      }, { passive: true });
-      
-      carouselWrapper.addEventListener('touchend', e => {
-        touchEndX = e.changedTouches[0].screenX;
-        const diff = touchStartX - touchEndX;
-        if (Math.abs(diff) > 50) {
-          if (diff > 0) nextSlide();
-          else prevSlide();
-          resetAutoSlide();
-        }
-      }, { passive: true });
 
-      // Initialize
+      carouselWrapper.addEventListener(
+        "touchstart",
+        (e) => {
+          touchStartX = e.changedTouches[0].screenX;
+        },
+        { passive: true },
+      );
+
+      carouselWrapper.addEventListener(
+        "touchend",
+        (e) => {
+          touchEndX = e.changedTouches[0].screenX;
+          const diff = touchStartX - touchEndX;
+          if (Math.abs(diff) > 50) {
+            if (diff > 0) nextSlide();
+            else prevSlide();
+            resetAutoSlide();
+          }
+        },
+        { passive: true },
+      );
+
       updateCarousel(false);
       startAutoSlide();
 
-      // ================================
-      // USER SESSION
-      // ================================
-      const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+      let resizeTimeout;
+      window.addEventListener("resize", () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+          updateCarousel(false);
+        }, 100);
+      });
 
-      if (!loggedInUser) {
-        window.location.href = "Login.html";
-      } else {
-        const usernameEl = document.getElementById("username");
-        if (usernameEl) {
-          usernameEl.textContent = loggedInUser.fullName;
-        }
-
-        const userIcon = document.getElementById("userIcon");
-        if (userIcon && loggedInUser.pfp) {
-          userIcon.style.backgroundImage = `url(${loggedInUser.pfp})`;
-          userIcon.style.backgroundSize = "cover";
-          userIcon.style.backgroundPosition = "center";
-        }
-      }
+      window.addEventListener("orientationchange", () => {
+        setTimeout(() => updateCarousel(false), 200);
+      });
     </script>
   </body>
 </html>

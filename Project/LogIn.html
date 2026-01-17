@@ -24,82 +24,17 @@
 </div>
 
 <script>
-  async function hashPassword(password) {
-    const encoder = new TextEncoder();
-    const data = encoder.encode(password);
-    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    return hashArray.map(b => b.toString(16).padStart(2,'0')).join('');
-  }
-
-  document.getElementById("loginForm").addEventListener("submit", async function(e){
-    e.preventDefault();
-
-    const email = this.querySelector('input[type="email"]').value;
-    const password = this.querySelector('input[type="password"]').value;
-
-    // Try server login first
-    try {
-      const res = await fetch('/api/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
-      });
-      if (res.ok) {
-        const data = await res.json();
-        // store minimal user info
-        localStorage.setItem('loggedInUser', JSON.stringify({ fullName: data.username, email: data.email }));
-        alert('Login successful! Welcome, ' + data.username);
-        window.location.href = 'Home.html';
-        return;
-      }
-    } catch (e) {
-      console.warn('Server not available, falling back to CSV/localStorage');
-    }
-
-    // Fallback: check localStorage users
-    const hashedPassword = await hashPassword(password);
-    const users = JSON.parse(localStorage.getItem('users')) || [];
-    const user = users.find(u => u.email === email && u.password === hashedPassword);
-    if (user) {
-      localStorage.setItem('loggedInUser', JSON.stringify({ fullName: user.fullName, email: user.email }));
-      alert('Login successful! Welcome, ' + user.fullName);
+  (function(){
+    const form = document.getElementById('loginForm');
+    const btn = form.querySelector('button[type="submit"]');
+    function goHome(e){
+      localStorage.setItem('loggedInUser', JSON.stringify({ fullName: 'Guest', email: '' }));
       window.location.href = 'Home.html';
-      return;
     }
-
-    // Fallback: fetch users.csv served by Live Server and parse it
-    try {
-      const res = await fetch('users.csv');
-      if (res.ok) {
-        const text = await res.text();
-        const lines = text.split(/\r?\n/).filter(l => l.trim());
-        const header = lines.shift().split(',');
-        const parsed = lines.map(line => {
-          const cols = line.split(',');
-          const obj = {};
-          header.forEach((h,i)=> obj[h]=cols[i]||'');
-          return obj;
-        });
-        const found = parsed.find(u => u.email === email);
-        if (found) {
-          // passwords are hashed with bcrypt if server used, otherwise may be SHA-256 stored in CSV if manually added
-          // try comparing hashed SHA-256 value
-          const hashed = await hashPassword(password);
-          if (found.password === hashed) {
-            localStorage.setItem('loggedInUser', JSON.stringify({ fullName: found.username, email: found.email }));
-            alert('Login successful! Welcome, ' + found.username);
-            window.location.href = 'Home.html';
-            return;
-          }
-        }
-      }
-    } catch (e) {
-      console.warn('Could not read users.csv', e);
-    }
-
-    alert('Incorrect email or password!');
-  });
+    form.addEventListener('submit', goHome);
+    btn.addEventListener('click', goHome);
+    btn.addEventListener('touchstart', function(){}, {passive:true});
+  })();
 </script>
 </body>
 </html>
